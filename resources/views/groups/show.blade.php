@@ -1,44 +1,55 @@
+<?php 
+$group_id = isset($group) ? $group->id : '';
+$group_name = isset($group) ? $group->name.' - ' : '';
+
+ ?>
+
 @extends('master')
  
-@section('title') {{ $group->name }} - uQueue @stop
+@section('title') {{$group_name}}uQueue @stop
 
 @section('content')
+
 
 <div class="row main">
     <div class="columns medium-10 small-centered">
 
-        <!-- <ul class="tabs" data-tab>
-          <li class="tab-title active"><a href="#panel1">Tab 1</a></li>
-          <li class="tab-title"><a href="#panel2">Tab 2</a></li>
-          <li class="tab-title"><a href="#panel3">Tab 3</a></li>
-          <li class="tab-title"><a href="#panel4">Tab 4</a></li>
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#panel1">Search</a></li>
+          <li class="tab-title"><a href="#panel2">Paste</a></li>
+
+         @if( isset($group) )
+          <li class="tab-title"><a href="#panel3">Browse</a></li>
+          @endif
         </ul>
+
         <div class="tabs-content">
           <div class="content active" id="panel1">
-            <p>This is the first panel of the basic tab example. You can place all sorts of content here including a grid.</p>
-          </div>
+                <div>Search:</div>
+                <input type="text" id="search-button">
+                <div id="search-container"></div>
+                <br>
+         </div>    
           <div class="content" id="panel2">
-            <p>This is the second panel of the basic tab example. This is the second panel of the basic tab example.</p>
-          </div>
+            <div>Paste:</div>
+            <input class="url" type="text" placeholder="youtube url">
+            <div class="button add small-12">Add to queue</div>
+         </div>
           <div class="content" id="panel3">
-            <p>This is the third panel of the basic tab example. This is the third panel of the basic tab example.</p>
+            <div class="browse-list">
+                    <?php foreach ($list as $l) {
+                    echo '<li data-id="'.$l->video.'">'.$l->name.'</li>';
+                    # code...
+                } ?>
+            </div>
           </div>
-          <div class="content" id="panel4">
-            <p>This is the fourth panel of the basic tab example. This is the fourth panel of the basic tab example.</p>
-          </div>
-        </div> -->
+        </div>
 
 
         <div class="response">Search or paste a YouTube url to add it to the queue</div> 
         
-        <div>Search:</div>
-        <input type="text" id="search-button">
-        <div id="search-container"></div>
-        <br>
        
-        <div>Paste:</div>
-        <input class="url" type="text" placeholder="youtube url">
-        <div class="button add small-12">Add to queue</div>
+       
 
         <!-- <div>Play again:</div>
         <div id="list-container"></div>
@@ -56,7 +67,6 @@
 @section('scripts')
 
 <script type="text/javascript">
-
 $(function() {
 
     $('#search-button').on('keyup',search);
@@ -108,7 +118,13 @@ $(function() {
         id = $(this).attr('data-id');
         addtoQ(id)
         $("#search-container").html('');
-
+    })
+    $(".browse-list").on('click','li',function(){
+        $(this).addClass('inactive');
+        $(".response").animate({opacity : 1});
+        id = $(this).attr('data-id');
+        addtoQ(id);
+        // updateBrowse();
     })
 
     $(".add").on('click',setVideo);
@@ -135,18 +151,19 @@ $(function() {
 })
 
 function addtoQ(id) {
-    $.get('{{url("video")}}/'+id+'?group={{$group->id}}', function(data){
+    $.get('{{url("video")}}/'+id+'?group={{$group_id}}', function(data){
                 $(".response").text(data);
                 setTimeout(function(){
                     $(".response").animate({opacity : 0})
                 },5000);
                 getList();
             });
+    updateBrowse();
 }
 function setVideo() {
     $(".response").text('Reading url');
     var id = getId($('.url').val());
-    console.log(id);
+    // console.log(id);
         if(id != undefined) {
             addtoQ(id)
         } else {
@@ -197,8 +214,9 @@ function queueVideo(event) {
         play(event);
     }
 }
+
 function play(event) {
-     $.get('{{url("videos?take=1")}}&group={{$group->id}}', function(data) {
+     $.get('{{url("videos?take=1")}}&group={{$group_id}}', function(data) {
                         var video = data[0] ? data[0].video : 'L-6LXhFNeGw'
                         var name = data[0] ? data[0].name : ''
                         video_played = data[0] ? data[0].id : false;
@@ -211,21 +229,32 @@ function play(event) {
                         getList();
             })
 }
-var list = '';
+var list = '', br_list = '';
 var intervalo = setInterval(function(){
     getList();
+    updateBrowse();
 },10000);
 
-function getList() {
+function updateBrowse() {
+    $.get('{{url("videos?take=50")}}&inactive=1&group={{$group_id}}', function(data) {
+        // console.log(data)
+        for(i = 0 ;i < data.length;i++) {
+            br_list += '<li data-id="'+data[i].video+'">'
+            br_list += data[i].name
+            br_list += '</li>'
+        }
+        $(".browse-list").html(br_list);
+    })
+    br_list = '';
 
-    $.get('{{url("videos?take=20")}}&group={{$group->id}}', function(data) {
-        console.log(data)
+}
+function getList() {
+    $.get('{{url("videos?take=20")}}&group={{$group_id}}', function(data) {
         if(data.length < 2) {
-             $.get('{{url("video/random/".$group->id)}}');
+             $.get('{{url("video/random/".$group_id)}}');
 
          }
         for(i = 0 ;i < data.length;i++) {
-            
             list += '<div class="list row" id="'+data[i].id+'">'
             list += '<div class="up small-1 columns "><i class="fa fa-arrow-up"> '+data[i].voteup+'</i></div>'
             list += '<div class="down small-1 columns "><i class="fa fa-arrow-down"> '+data[i].votedown+'</i></div>'

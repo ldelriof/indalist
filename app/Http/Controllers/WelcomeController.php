@@ -37,8 +37,9 @@ class WelcomeController extends Controller {
 		$ip = Request::getClientIp();
 
 		$rand = Video::where('order', '>', -5)->orderByRaw("RAND()")->first();
+		$list = Video::where('active', 0)->where('order', '>', -5)->paginate(50);
 
-		return view('welcome')->with(['sec' => $sec, 'ip' => $ip, 'rand' => $rand]);
+		return view('groups.show')->with(['sec' => $sec, 'ip' => $ip, 'rand' => $rand, 'list' => $list]);
 
 	}
 

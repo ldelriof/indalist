@@ -9,7 +9,7 @@
 }
 .response {
 	min-height: 20px;
-	padding: 20px;
+	padding: 20px 0;
 	/*opacity: 0;*/
 }
 .url {
@@ -17,4 +17,22 @@
 }
 .list .up, .list .down, #search-container li {
 	cursor: pointer;
+}
+li a {
+	outline: none;
+}
+.browse-list {
+	max-height: 200px;
+	overflow: auto;
+}
+.browse-list li, #search-container li {
+	list-style: none;
+	padding: 0 10px;
+}
+.browse-list li:hover, #search-container li:hover {
+	background: #dfdfdf;
+	cursor: pointer;
+}
+.inactive {
+	color: #ccc;
 }

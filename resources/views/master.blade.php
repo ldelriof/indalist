@@ -1,6 +1,6 @@
 
 <!doctype html>
-<html class="no-js" lang="en">
+<html lang="en">
   <head>
     <!-- <meta property="og:image" content="" /> -->
     <!-- <meta property="og:image:height" content="400" /> -->
@@ -11,7 +11,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>@yield('title')</title>
 
-    <link rel="stylesheet" href="{{url('css/foundation.min.css')}}" />
+    <link rel="stylesheet" href="{{url('css/foundation.css')}}" />
     <link rel="stylesheet" href="{{url('css/font-awesome.min.css')}}" />
     <link rel="stylesheet" href="{{url('css/style.css')}}" />
     <script>
@@ -55,7 +55,7 @@
 
 @yield('content')
 
-<script src="http://www.youtube.com/player_api"></script>
+<script src="{{ url('js/vendor/player_api.js')}}"></script>
 <script src="{{ url('js/vendor/jquery.js')}}"></script>
 <script src="{{ url('js/foundation.min.js')}}"></script>
 <script src="{{ url('js/code.js')}}"></script>

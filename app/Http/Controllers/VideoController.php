@@ -17,7 +17,8 @@ class VideoController extends Controller {
 	public function index()
 	{
 		$take = Input::get('take') ? Input::get('take') : 1;
-		$videos = Video::where('active', 1)->where('order', '>', -5);
+		$active = Input::get('inactive') ? 0 : 1;
+		$videos = Video::where('active', $active)->where('order', '>', -5);
 
 		if(Input::get('group')) {
 			$videos = $videos->where('group_id',Input::get('group'));
@@ -60,12 +61,12 @@ class VideoController extends Controller {
 			$video_name = json_decode($video)->items[0]->snippet->title;
 
 			$video =  new Video;
+			$video->name = $video_name;
 		}
 
 		$video->group_id = $group;
 		$video->video = $id;
 		$video->active = 1;
-		$video->name = $video_name;
 
 		if($video->save()) {
 			return 'Video added to queue';

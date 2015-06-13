@@ -1,24 +1,55 @@
+<?php 
+$group_id = $group ? $group->id : '';
+$group_name = $group ? $group->name.' - ' : '';
+
+ ?>
+
 @extends('master')
  
-@section('title') - uQueue - @stop
+@section('title') {{$group_name}}uQueue @stop
 
 @section('content')
 
+
 <div class="row main">
     <div class="columns medium-10 small-centered">
-        <div class="row">
-            <div class="response columns small-8 medium-9 large-10 ">Search or paste a YouTube url to add it to the queue</div> 
-            <div class="columns columns small-4 medium-3 large-2 "><a href="{{url('groups')}}" class="small-12 button">Groups</a></div>
+
+        <ul class="tabs" data-tab>
+          <li class="tab-title active"><a href="#panel1">Search</a></li>
+          <li class="tab-title"><a href="#panel2">Paste</a></li>
+          <li class="tab-title"><a href="#panel3">Browse</a></li>
+        </ul>
+
+        <div class="tabs-content">
+          <div class="content active" id="panel1">
+                <input type="text" id="search-button">
+                <div id="search-container"></div>
+                <br>
+         </div>    
+          <div class="content" id="panel2">
+            <div>Paste:</div>
+            <input class="url" type="text" placeholder="youtube url">
+            <div class="button add small-12">Add to queue</div>
+         </div>
+          <div class="content" id="panel3">
+            <div class="browse-list">
+                    <?php foreach ($list as $l) {
+                    echo '<li data-id="'.$l->video.'">'.$l->name.'</li>';
+                    # code...
+                } ?>
+            </div>
+          </div>
         </div>
 
-        <div>Search:</div>
-        <input type="text" id="search-button">
-        <div id="search-container"></div>
-        <br>
+
+        <div class="response">Search or paste a YouTube url to add it to the queue</div> 
+        
        
-        <div>Paste:</div>
-        <input class="url" type="text" placeholder="youtube url">
-        <div class="button add small-12">Add to queue</div>
+       
+
+        <!-- <div>Play again:</div>
+        <div id="list-container"></div>
+        <br> -->
 
         <div id="player"></div>
         <div id="curr_title"></div>
@@ -32,8 +63,6 @@
 @section('scripts')
 
 <script type="text/javascript">
-
-
 $(function() {
 
     $('#search-button').on('keyup',search);
@@ -85,7 +114,13 @@ $(function() {
         id = $(this).attr('data-id');
         addtoQ(id)
         $("#search-container").html('');
-
+    })
+    $(".browse-list").on('click','li',function(){
+        $(this).hide();
+        $(".response").animate({opacity : 1});
+        id = $(this).attr('data-id');
+        addtoQ(id);
+        updateBrowse();
     })
 
     $(".add").on('click',setVideo);
@@ -112,7 +147,7 @@ $(function() {
 })
 
 function addtoQ(id) {
-    $.get('{{url("video")}}/'+id, function(data){
+    $.get('{{url("video")}}/'+id+'?group={{$group_id}}', function(data){
                 $(".response").text(data);
                 setTimeout(function(){
                     $(".response").animate({opacity : 0})
@@ -123,7 +158,7 @@ function addtoQ(id) {
 function setVideo() {
     $(".response").text('Reading url');
     var id = getId($('.url').val());
-    console.log(id);
+    // console.log(id);
         if(id != undefined) {
             addtoQ(id)
         } else {
@@ -174,8 +209,9 @@ function queueVideo(event) {
         play(event);
     }
 }
+
 function play(event) {
-     $.get('{{url("videos?take=1")}}', function(data) {
+     $.get('{{url("videos?take=1")}}&group={{$group_id}}', function(data) {
                         var video = data[0] ? data[0].video : 'L-6LXhFNeGw'
                         var name = data[0] ? data[0].name : ''
                         video_played = data[0] ? data[0].id : false;
@@ -188,36 +224,44 @@ function play(event) {
                         getList();
             })
 }
-var list = '';
+var list = '', br_list = '';
 var intervalo = setInterval(function(){
     getList();
+    updateBrowse();
 },10000);
 
-function getList() {
-
-    $.get('{{url("videos?take=20")}}', function(data) {
+function updateBrowse() {
+    $.get('{{url("videos?take=50")}}&inactive=1&group={{$group_id}}', function(data) {
         // console.log(data)
+        for(i = 0 ;i < data.length;i++) {
+            br_list += '<li data-id="'+data[i].video+'">'
+            br_list += data[i].name
+            br_list += '</li>'
+        }
+        $(".browse-list").html(br_list);
+    })
+    br_list = '';
+
+}
+function getList() {
+    $.get('{{url("videos?take=20")}}&group={{$group_id}}', function(data) {
         if(data.length < 2) {
-             $.get('{{url("video/random/0")}}', function(data) {
-                rand = data;
-                id = rand.video;
-                // addtoQ(id)
-             });
+             $.get('{{url("video/random/".$group_id)}}');
+
          }
-                            for(i = 0 ;i < data.length;i++) {
-                                
-                                list += '<div class="list row" id="'+data[i].id+'">'
-                                list += '<div class="up small-1 columns "><i class="fa fa-arrow-up"> '+data[i].voteup+'</i></div>'
-                                list += '<div class="down small-1 columns "><i class="fa fa-arrow-down"> '+data[i].votedown+'</i></div>'
-                                list += '<div class="columns small-8">'+data[i].name+'</div>'
-                                list += '<div class="columns small-2">'
-                                list +=  data[i].group ? data[i].group.name : '&nbsp;'
-                                list += '</div>'
-                                list += '</div>'
-                            }
-                            $("#list_tits").html(list);
-                            list = '';
-                        });
+        for(i = 0 ;i < data.length;i++) {
+            list += '<div class="list row" id="'+data[i].id+'">'
+            list += '<div class="up small-1 columns "><i class="fa fa-arrow-up"> '+data[i].voteup+'</i></div>'
+            list += '<div class="down small-1 columns "><i class="fa fa-arrow-down"> '+data[i].votedown+'</i></div>'
+            list += '<div class="columns small-8">'+data[i].name+'</div>'
+            list += '<div class="columns small-2">'
+            list +=  data[i].group ? data[i].group.name : '&nbsp;'
+            list += '</div>'
+            list += '</div>'
+        }
+        $("#list_tits").html(list);
+        list = '';
+    });
 }
 
 
@@ -230,4 +274,5 @@ function post(url, success) {
 }
 
 </script>
+
 @stop
