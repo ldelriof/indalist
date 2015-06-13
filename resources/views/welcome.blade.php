@@ -1,6 +1,6 @@
 @extends('master')
  
-@section('title') uQueue @stop
+@section('title') - uQueue - @stop
 
 @section('content')
 
