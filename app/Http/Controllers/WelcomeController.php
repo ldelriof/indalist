@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use Request, App\Video;
+
 class WelcomeController extends Controller {
 
 	/*
@@ -30,7 +32,14 @@ class WelcomeController extends Controller {
 	 */
 	public function index()
 	{
-		return view('welcome');
+
+		$sec = session();
+		$ip = Request::getClientIp();
+
+		$rand = Video::where('order', '>', -5)->orderByRaw("RAND()")->first();
+
+		return view('welcome')->with(['sec' => $sec, 'ip' => $ip, 'rand' => $rand]);
+
 	}
 
 }

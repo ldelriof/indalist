@@ -1,0 +1,20 @@
+.header {
+	text-align: center;
+}
+#player {
+	visibility: hidden;
+}
+.main {
+	padding-bottom: 50px; 
+}
+.response {
+	min-height: 20px;
+	padding: 20px;
+	/*opacity: 0;*/
+}
+.url {
+	margin-bottom: 0 !important;
+}
+.list .up, .list .down, #search-container li {
+	cursor: pointer;
+}
