@@ -54,7 +54,8 @@ $group_name = isset($group) ? $group->name.' - ' : '';
         <!-- <div>Play again:</div>
         <div id="list-container"></div>
         <br> -->
-        <iframe id="player" frameborder="0" allowfullscreen="1" title="YouTube video player" width="100%" height="400" src="https://www.youtube.com/embed/L-6LXhFNeGw?enablejsapi=1&amp;origin=http%3A%2F%2Flocalhost" style="visibility: visible;"></iframe>
+
+        <div id="player"></div>
         <div id="curr_title"></div>
         <br>
         <div id="list_tits"></div>
