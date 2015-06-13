@@ -198,7 +198,7 @@ function queueVideo(event) {
     }
 }
 function play(event) {
-     $.get('{{url("videos?take=1")}}', function(data) {
+     $.get('{{url("videos?take=1&group={{$group->id}}")}}', function(data) {
                         var video = data[0] ? data[0].video : 'L-6LXhFNeGw'
                         var name = data[0] ? data[0].name : ''
                         video_played = data[0] ? data[0].id : false;
