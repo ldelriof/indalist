@@ -90,7 +90,7 @@ class GroupController extends Controller {
 	}
 
 	public function activeGs() {
-		$act_groups = Video::where('active',1)->groupBy('group_id')->with('Group')->get();
+		$act_groups = Video::where('active',1)->where('order', '>', -5)->groupBy('group_id')->with('Group')->get();
 
 		return $act_groups;
 	}
