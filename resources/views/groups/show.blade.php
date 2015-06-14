@@ -15,6 +15,8 @@ $group_name = isset($group) ? $group->name.' - ' : '';
     <div class="columns medium-10 small-centered">
         
         
+            <dl class="sub-nav active-list"></dl>
+            </dl>
 
         <ul class="tabs" data-tab>
           <li class="tab-title active"><a href="#panel1">Search</a></li>
@@ -49,8 +51,6 @@ $group_name = isset($group) ? $group->name.' - ' : '';
                 } ?>
             </div>
             @else 
-            <dl class="sub-nav active-list"></dl>
-            </dl>
             @endif
           </div>
         </div>
@@ -70,7 +70,17 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
 <script type="text/javascript">
 
-var group_orig = '{{$group_id}}', group_list = '{{$group_id}}';
+var group_orig = '{{$group_id}}', group_list;
+
+var groups = window.location.hash.toString().split('/')[1];
+    group_list = groups ? groups : '{{$group_id}}';
+    // group_orig = groups;
+
+$(window).bind('hashchange', function() {
+    groups = window.location.hash.toString().split('/')[1];
+    group_list = groups;
+    // getList();
+});
 
 $(function() {
     $(".active-list").on('click', 'dd', function() {
@@ -82,7 +92,7 @@ $(function() {
             listen[$(this).attr("data-id")] = 'off';
         }
         getActGroups();
-        // window.location = '#!/'+listen_on
+        window.location = '#!/'+listen_on.substr(1)
     })
 
     $('#search-button').on('keyup',search);
@@ -233,16 +243,15 @@ function queueVideo(event) {
 
 function play(event) {
      $.get('{{url("videos?take=1")}}&group='+group_list, function(data) {
-                        var video = data[0] ? data[0].video : 'L-6LXhFNeGw'
-                        var name = data[0] ? data[0].name : ''
-                        video_played = data[0] ? data[0].id : false;
-
-                        // console.log(data[0].video);
-                        player.cueVideoById({videoId:video});
-                        event.target.playVideo();  
-                        $("#curr_title").text(name); 
-                        $("#player").css("visibility", "visible");
-                        getList();
+                var video = data[0] ? data[0].video : 'L-6LXhFNeGw'
+                var name = data[0] ? data[0].name : ''
+                video_played = data[0] ? data[0].id : false;
+                // console.log(data[0].video);
+                player.cueVideoById({videoId:video});
+                event.target.playVideo();  
+                $("#curr_title").text(name); 
+                $("#player").css("visibility", "visible");
+                getList();
             })
 }
 var list = '', br_list = '', ac_list = '';
@@ -259,26 +268,44 @@ var listen = [], listen_on = '';
 if(group_orig == 0) {
     activeGroups();
 }
+
+
 function activeGroups() {
     $.get('{{url("groups/active")}}', function(data) {
         // console.log(data);
         for(i = 0 ;i < data.length;i++) {
 
-            g_id = data[i].group ? 'g'+data[i].group.id : 'g0'
+            g_id = data[i].group ? data[i].group.id : 0
 
-            if(listen[g_id] != 'off') {
-                listen[g_id] = 'on';
+
+            if(groups) {
+                grAct = groups.split(',');
+                console.log(grAct);
+                console.log(grAct.indexOf('0'));
+
+                if(grAct.indexOf(''+g_id) < 0) {
+                    listen['g'+g_id] = 'off';
+                } else {
+                    listen['g'+g_id] = 'on';
+                }
+            } else {
+                listen['g'+g_id] = 'on';
             }
 
-            active = listen[g_id] == 'on' ? 'active' : ''
-            vol = listen[g_id] == 'on' ? 'up' : 'off'
-            ac_list += '<dd class="'+active+'" data-id="'+g_id+'"><a>'
+            console.log(listen);
+
+            active = listen['g'+g_id] == 'on' ? 'active' : ''
+            vol = listen['g'+g_id] == 'on' ? 'up' : 'off'
+            ac_list += '<dd class="'+active+'" data-id="g'+g_id+'"><a>'
             ac_list += data[i].group ? data[i].group.name : 'Home'
             ac_list += ' <i class="fa fa-volume-'+vol+'"></i></a></dd>'
+            
         }
         $(".active-list").html(ac_list);
         ac_list = '';
         getActGroups();
+        // getList();
+
     })
 
 }
@@ -291,7 +318,6 @@ function getActGroups() {
         }
         listen_on = listen_on.replace(/g/g, ',')
         group_list = listen_on.substr(1)
-        getList()
 }
 
 function updateBrowse() {
@@ -338,17 +364,8 @@ function post(url, success) {
 }
 
 
-// var groups = window.location.hash.toString().split('/')[1].split('g');
-//     groups.shift();
-//     group_list = groups.toString();
 
-// $(window).bind('hashchange', function() {
-//     groups = window.location.hash.toString().split('/')[1].split('g');
-//     groups.shift();
-//     group_list = groups.toString();
-//     // getList();
 
-// });
 
 
 
