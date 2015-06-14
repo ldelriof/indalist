@@ -20,8 +20,9 @@ class VideoController extends Controller {
 		$active = Input::get('inactive') ? 0 : 1;
 		$videos = Video::where('active', $active)->where('order', '>', -5);
 
-		if(Input::get('group')) {
-			$videos = $videos->where('group_id',Input::get('group'));
+		if(Input::get('group') > -1) {
+			$groups = explode(',', Input::get('group'));
+			$videos = $videos->whereIn('group_id',$groups);
 		}
 
 		$videos = $videos->orderBy('order','desc')->orderBy('updated_at','asc')->take($take)->with('group')->get();
@@ -32,7 +33,12 @@ class VideoController extends Controller {
 
 	public function random($group)
 	{
-		$video = Video::where(['active' => 0, 'group_id' => $group])->where('order', '>', -5)->orderByRaw("RAND()")->first();
+		$params = ['active' => 0];
+		if($group > 0) {
+			$params = ['group_id' => $group];
+		}
+
+		$video = Video::where($params)->where('order', '>', -5)->orderByRaw("RAND()")->first();
 		if($video) {
 			$video->active = 1;
 			$video->save();

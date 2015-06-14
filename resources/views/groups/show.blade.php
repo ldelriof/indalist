@@ -1,5 +1,5 @@
 <?php 
-$group_id = isset($group) ? $group->id : '';
+$group_id = isset($group) ? $group->id : 0;
 $group_name = isset($group) ? $group->name.' - ' : '';
 
  ?>
@@ -13,13 +13,17 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
 <div class="row main">
     <div class="columns medium-10 small-centered">
+        
+        
 
         <ul class="tabs" data-tab>
           <li class="tab-title active"><a href="#panel1">Search</a></li>
           <li class="tab-title"><a href="#panel2">Paste</a></li>
 
-         @if( isset($group) )
+          @if( isset($group) )
           <li class="tab-title"><a href="#panel3">Browse</a></li>
+          @else 
+          <li class="tab-title"><a href="#panel3">Active groups</a></li>
           @endif
         </ul>
 
@@ -36,25 +40,23 @@ $group_name = isset($group) ? $group->name.' - ' : '';
             <div class="button add small-12">Add to queue</div>
          </div>
           <div class="content" id="panel3">
+
+            @if( isset($group) )
             <div class="browse-list">
                     <?php foreach ($list as $l) {
-                    echo '<li data-id="'.$l->video.'">'.$l->name.'</li>';
+                    echo '<li data-id="'.$l->video.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
                     # code...
                 } ?>
             </div>
+            @else 
+            <dl class="sub-nav active-list"></dl>
+            </dl>
+            @endif
           </div>
         </div>
 
-
         <div class="response">Search or paste a YouTube url to add it to the queue</div> 
         
-       
-       
-
-        <!-- <div>Play again:</div>
-        <div id="list-container"></div>
-        <br> -->
-
         <div id="player"></div>
         <div id="curr_title"></div>
         <br>
@@ -67,7 +69,21 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 @section('scripts')
 
 <script type="text/javascript">
+
+var group_orig = '{{$group_id}}', group_list = '{{$group_id}}';
+
 $(function() {
+    $(".active-list").on('click', 'dd', function() {
+        $(this).toggleClass("active");
+        $(this).find("i").toggleClass("fa-volume-up").toggleClass("fa-volume-off");
+        if($(this).is('.active')) {
+            listen[$(this).attr("data-id")] = 'on';
+        } else {
+            listen[$(this).attr("data-id")] = 'off';
+        }
+        getActGroups();
+        // window.location = '#!/'+listen_on
+    })
 
     $('#search-button').on('keyup',search);
 
@@ -151,7 +167,7 @@ $(function() {
 })
 
 function addtoQ(id) {
-    $.get('{{url("video")}}/'+id+'?group={{$group_id}}', function(data){
+    $.get('{{url("video")}}/'+id+'?group='+group_list, function(data){
                 $(".response").text(data);
                 setTimeout(function(){
                     $(".response").animate({opacity : 0})
@@ -186,7 +202,7 @@ function getId(pastedData) {
 }
 // create youtube player
 var player;    
-function onYouTubePlayerAPIReady() {
+function onYouTubeIframeAPIReady() {
     var video = 'L-6LXhFNeGw'
     player = new YT.Player('player', {
       height: '400',
@@ -216,7 +232,7 @@ function queueVideo(event) {
 }
 
 function play(event) {
-     $.get('{{url("videos?take=1")}}&group={{$group_id}}', function(data) {
+     $.get('{{url("videos?take=1")}}&group='+group_list, function(data) {
                         var video = data[0] ? data[0].video : 'L-6LXhFNeGw'
                         var name = data[0] ? data[0].name : ''
                         video_played = data[0] ? data[0].id : false;
@@ -229,18 +245,61 @@ function play(event) {
                         getList();
             })
 }
-var list = '', br_list = '';
+var list = '', br_list = '', ac_list = '';
 var intervalo = setInterval(function(){
     getList();
     updateBrowse();
+    if(group_orig == 0) {
+        activeGroups();
+    }
 },10000);
 
+var listen = [], listen_on = '';
+// console.log(group_list);
+if(group_orig == 0) {
+    activeGroups();
+}
+function activeGroups() {
+    $.get('{{url("groups/active")}}', function(data) {
+        // console.log(data);
+        for(i = 0 ;i < data.length;i++) {
+
+            g_id = data[i].group ? 'g'+data[i].group.id : 'g0'
+
+            if(listen[g_id] != 'off') {
+                listen[g_id] = 'on';
+            }
+
+            active = listen[g_id] == 'on' ? 'active' : ''
+            vol = listen[g_id] == 'on' ? 'up' : 'off'
+            ac_list += '<dd class="'+active+'" data-id="'+g_id+'"><a>'
+            ac_list += data[i].group ? data[i].group.name : 'Home'
+            ac_list += ' <i class="fa fa-volume-'+vol+'"></i></a></dd>'
+        }
+        $(".active-list").html(ac_list);
+        ac_list = '';
+        getActGroups();
+    })
+
+}
+function getActGroups() {
+        listen_on = ''
+        for(on in listen){
+            if(listen[on] == 'on'){
+                listen_on +=  on ;
+            }
+        }
+        listen_on = listen_on.replace(/g/g, ',')
+        group_list = listen_on.substr(1)
+        getList()
+}
+
 function updateBrowse() {
-    $.get('{{url("videos?take=50")}}&inactive=1&group={{$group_id}}', function(data) {
+    $.get('{{url("videos?take=50")}}&inactive=1&group='+group_list, function(data) {
         // console.log(data)
         for(i = 0 ;i < data.length;i++) {
             br_list += '<li data-id="'+data[i].video+'">'
-            br_list += data[i].name
+            br_list += '<span>' +data[i].order + ' <i class="fa fa-thumbs-up"></i></span> ' + data[i].name
             br_list += '</li>'
         }
         $(".browse-list").html(br_list);
@@ -249,15 +308,15 @@ function updateBrowse() {
 
 }
 function getList() {
-    $.get('{{url("videos?take=20")}}&group={{$group_id}}', function(data) {
+    $.get('{{url("videos?take=20")}}&group='+group_list, function(data) {
+        // console.log(data);
         if(data.length < 2) {
              $.get('{{url("video/random/".$group_id)}}');
-
          }
         for(i = 0 ;i < data.length;i++) {
             list += '<div class="list row" id="'+data[i].id+'">'
-            list += '<div class="up small-1 columns "><i class="fa fa-arrow-up"> '+data[i].voteup+'</i></div>'
-            list += '<div class="down small-1 columns "><i class="fa fa-arrow-down"> '+data[i].votedown+'</i></div>'
+            list += '<div class="up small-1 columns "><i class="fa fa-thumbs-up"> '+data[i].voteup+'</i></div>'
+            list += '<div class="down small-1 columns "><i class="fa fa-thumbs-down"> '+data[i].votedown+'</i></div>'
             list += '<div class="columns small-8">'+data[i].name+'</div>'
             list += '<div class="columns small-2">'
             list +=  data[i].group ? data[i].group.name : '&nbsp;'
@@ -277,6 +336,21 @@ function post(url, success) {
         success: success
     })
 }
+
+
+// var groups = window.location.hash.toString().split('/')[1].split('g');
+//     groups.shift();
+//     group_list = groups.toString();
+
+// $(window).bind('hashchange', function() {
+//     groups = window.location.hash.toString().split('/')[1].split('g');
+//     groups.shift();
+//     group_list = groups.toString();
+//     // getList();
+
+// });
+
+
 
 </script>
 

@@ -17,7 +17,7 @@ class GroupController extends Controller {
 	public function index()
 	{
 		//
-		$groups = Group::orderBy('id','desc')->paginate(20);
+		$groups = Group::orderBy('id','desc')->paginate(100);
 		return view('groups.index')->with('groups', $groups);
 	}
 
@@ -89,6 +89,11 @@ class GroupController extends Controller {
 		return view('groups.show')->with(['group' => $group, 'rand' => $rand, 'list' => $list]);
 	}
 
+	public function activeGs() {
+		$act_groups = Video::where('active',1)->groupBy('group_id')->with('Group')->get();
+
+		return $act_groups;
+	}
 	/**
 	 * Show the form for editing the specified resource.
 	 *

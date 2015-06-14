@@ -18,6 +18,7 @@ Route::get('/youtube', 'YoutubeController@index');
 
 Route::get('/groups', 'GroupController@index');
 Route::get('/group', 'GroupController@create');
+Route::get('/groups/active', 'GroupController@activeGs');
 
 
 Route::get('home', 'HomeController@index');

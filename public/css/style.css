@@ -36,3 +36,6 @@ li a {
 .inactive {
 	color: #ccc;
 }
+.active-list dd {
+	cursor: pointer;
+}
