@@ -299,7 +299,7 @@ function updateBrowse() {
         // console.log(data)
         for(i = 0 ;i < data.length;i++) {
             br_list += '<li data-id="'+data[i].video+'">'
-            br_list += '<span>' +data[i].order + ' <i class="fa fa-thumbs-up"></i></span> ' + data[i].name
+            br_list += '<small>' +data[i].order + ' <i class="fa fa-thumbs-up"></i></small> ' + data[i].name
             br_list += '</li>'
         }
         $(".browse-list").html(br_list);
