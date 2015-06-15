@@ -113,7 +113,7 @@ $(function() {
       $.get('https://www.googleapis.com/youtube/v3/search?part=snippet&videoDuration=medium&type=video&q='+q+'&key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4', function(e){
         items['mediumv'] = e.items;
       })
-      displayRes()
+      displayRes();
     }
 
     function displayRes() {
@@ -290,7 +290,7 @@ function activeGroups() {
                 listen['g'+g_id] = 'on';
             }
 
-            console.log(listen);
+            // console.log(listen);
 
             active = listen['g'+g_id] == 'on' ? 'active' : ''
             vol = listen['g'+g_id] == 'on' ? 'up' : 'off'
