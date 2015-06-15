@@ -24,8 +24,6 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
           @if( isset($group) )
           <li class="tab-title"><a href="#panel3">Browse</a></li>
-          @else 
-          <li class="tab-title"><a href="#panel3">Active groups</a></li>
           @endif
         </ul>
 
