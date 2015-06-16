@@ -27,33 +27,41 @@
 
 </head>
 <body>
-<nav class="top-bar" data-topbar="" role="navigation">
-  <ul class="title-area">
-    <li class="name"></li>
-    <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-    <li class="toggle-topbar menu-icon"><a href=""><span>Menu</span></a></li>
-  </ul>
-
-  
-<section class="top-bar-section" style="left: 0%;">
-    <ul class="left">
-
-      <li class=""><a href="{{ url() }}">uQueue</a></li>
-      <li class="divider"></li>
-      <li class=""><a href="{{ url('groups') }}">Groups</a></li>
-    </ul>
-    <!-- Right Nav Section -->
-    <!-- <ul class="right">
-      <li class="divider"></li>
-      <li><a href="#">Item 2</a></li>
-    </ul> -->
-  </section></nav>
 
 
-
+<div class="main">
 <div class="header"><h1>@yield('title')</h1></div>
+<div class="menu sticky">
+  <nav class="top-bar " data-topbar="" role="navigation">
+    <ul class="title-area">
+      <li class="name"></li>
+      <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+      <li class="toggle-topbar menu-icon"><a href=""><span>Menu</span></a></li>
+    </ul>
+
+    
+  <section class="top-bar-section" style="left: 0%;">
+      <ul class="left">
+
+        <li class=""><a href="{{ url() }}">uQueue</a></li>
+        <li class="divider"></li>
+        <li class=""><a href="{{ url('groups') }}">Groups</a></li>
+      </ul>
+      <!-- Right Nav Section -->
+      <!-- <ul class="right">
+        <li class="divider"></li>
+        <li><a href="#">Item 2</a></li>
+      </ul> -->
+    </section></nav>
+  </div>
+
 
 @yield('content')
+</div>
+
+<div class="footer">
+  <span>© 2015 IOIOIO</span>
+</div>
 
 <script src="{{ url('js/vendor/player_api.js')}}"></script>
 <script src="{{ url('js/vendor/jquery.js')}}"></script>

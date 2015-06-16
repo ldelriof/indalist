@@ -1,6 +1,6 @@
 @extends('master')
  
-@section('title') uQueue - Groups @stop
+@section('title') Groups - indalist @stop
 
 @section('content')
 
@@ -21,7 +21,7 @@
     </div>
 	  <div class="row collapse">
 	    @foreach($groups as $group)
-	    	<li><a href="{{$group->slug}}">{{$group->name}}</a></li>
+	    	<a href="{{$group->slug}}"><div class="list row">{{$group->name}}</div></a>
 	    @endforeach
 	  </div>
 

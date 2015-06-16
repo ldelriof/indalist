@@ -1,3 +1,36 @@
+/* colores opciones
+00EEFF
+
+*/
+body {
+	background: #f0f0f0;
+	/*color: #fff;*/
+}
+h1, li>a {
+	font-weight: 200;
+	color: #333;
+}
+h2 {
+	font-weight: bold;
+	font-size: 1.2em;
+}
+.main {
+	min-height: 100%;
+}
+.top-bar, .top-bar-section ul li a {
+  background: #E80C7A !important;
+}
+.top-bar-section > ul > .divider {
+  border: none !important;
+}
+.top-bar-section ul li a:hover {
+  background: #AD095B !important;
+}
+.panel {
+	font-weight: 100;
+	background: #fff;
+	border: none;
+}
 .header {
 	text-align: center;
 }
@@ -26,11 +59,14 @@ li a {
 	overflow: auto;
 }
 .browse-list li, #search-container li {
+	background: #dfdfdf;
+	margin-bottom: 1px;
 	list-style: none;
-	padding: 0 10px;
+	padding: 5px 10px;
 }
 .browse-list li:hover, #search-container li:hover {
-	background: #dfdfdf;
+	background: #fcfcfc;
+	font-weight: 300;
 	cursor: pointer;
 }
 .inactive {
@@ -38,4 +74,66 @@ li a {
 }
 .active-list dd {
 	cursor: pointer;
+}
+.menu {
+	padding-bottom: 20px;
+}
+#curr_title {
+	background: #222;
+	color: #fff;
+	padding: 10px;
+	margin-top: -10px;
+	margin-bottom: 20px;
+	font-size: 12px;
+}
+a {
+  color: #820744;
+}
+a:hover {
+  color: #E80C7A;
+}
+.sub-nav dd.active a {
+  background: #E80C7A;
+  cursor: pointer;
+}
+.sub-nav dd.active a:hover {
+  background: #820744;
+}
+#search-button {
+	margin-bottom: 0;
+}
+#search-container li {
+	overflow: hidden;
+	height: 60px;
+}
+#search-container li img {
+	height: 60px;
+	margin-left: -10px;
+	margin-top: -5px;
+	margin-right: 20px;
+}
+.list.row {
+	background: #dfdfdf;
+	margin-bottom: 1px;
+	padding: 10px;
+	font-weight: 200;
+}
+.list.row:hover {
+  background: #fcfcfc;
+}
+.list.row i {
+	color: #333;
+	font-size: 0.8em;
+}
+.list.row i:hover {
+	color: #820744;
+}
+.footer {
+	min-height:30px;
+	border-top: #555 solid 1px;
+	background-color: #888;
+	width: 100%;
+	color: #fff;
+	padding: 10px;
+	font-size: 10px;
 }

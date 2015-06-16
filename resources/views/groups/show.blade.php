@@ -6,17 +6,15 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
 @extends('master')
  
-@section('title') {{$group_name}}uQueue @stop
+@section('title') {{$group_name}}indalist @stop
 
 @section('content')
 
 
-<div class="row main">
+<div class="row">
     <div class="columns medium-10 small-centered">
         
         
-            <dl class="sub-nav active-list"></dl>
-            </dl>
 
         <ul class="tabs" data-tab>
           <li class="tab-title active"><a href="#panel1">Search</a></li>
@@ -24,41 +22,58 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
           @if( isset($group) )
           <li class="tab-title"><a href="#panel3">Browse</a></li>
+          @else
+          <li class="tab-title"><a href="#panel3">Groups</a></li>
           @endif
         </ul>
 
-        <div class="tabs-content">
+        <div class="tabs-content panel">
           <div class="content active" id="panel1">
                 <div>Search:</div>
                 <input type="text" id="search-button">
                 <div id="search-container"></div>
-                <br>
+                
+                <div class="response">Search a YouTube url to add it to the queue</div> 
          </div>    
           <div class="content" id="panel2">
             <div>Paste:</div>
             <input class="url" type="text" placeholder="youtube url">
-            <div class="button add small-12">Add to queue</div>
+            <div class="button secondary add small-12">Add to queue</div>
+
+                <div class="response">Paste a YouTube url to add it to the queue</div> 
          </div>
           <div class="content" id="panel3">
 
-            @if( isset($group) )
             <div class="browse-list">
+            @if( isset($group) )
                     <?php foreach ($list as $l) {
                     echo '<li data-id="'.$l->video.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
                     # code...
                 } ?>
-            </div>
             @else 
+                @foreach($groups as $gr)
+                    <a href="{{$gr->slug}}"><li>{{$gr->name}}</li></a>
+                @endforeach
             @endif
+            </div>
           </div>
         </div>
 
-        <div class="response">Search or paste a YouTube url to add it to the queue</div> 
         
-        <div id="player"></div>
-        <div id="curr_title"></div>
-        <br>
+        @if( !isset($group) )
+        <h2>Now playing:</h2>
+            <dl class="sub-nav active-list"></dl>
+            </dl>
+        @endif
+
+    </div>
+</div>
+<div id="player"></div>
+<div id="curr_title"></div>
+<div class="row">
+    <div class="columns medium-10 small-centered">
         <div id="list_tits"></div>
+        <br>
     </div>
 </div>
 
@@ -106,30 +121,35 @@ $(function() {
     function search() {
 
       var q = $('#search-button').val();
-        
-      $.get('https://www.googleapis.com/youtube/v3/search?part=snippet&videoDuration=short&type=video&q='+q+'&key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4', function(e){
-        items['shortv'] = e.items;
-      })
-      $.get('https://www.googleapis.com/youtube/v3/search?part=snippet&videoDuration=medium&type=video&q='+q+'&key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4', function(e){
-        items['mediumv'] = e.items;
-      })
-      displayRes();
+
+      if(q == '') {
+        $("#search-container").html('');
+      } else { 
+          $.get('https://www.googleapis.com/youtube/v3/search?part=snippet&videoDuration=short&type=video&q='+q+'&key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4', function(e){
+            items['shortv'] = e.items;
+            console.log(e);
+          })
+          $.get('https://www.googleapis.com/youtube/v3/search?part=snippet&videoDuration=medium&type=video&q='+q+'&key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4', function(e){
+            items['mediumv'] = e.items;
+          })
+          displayRes();
+      }
     }
 
     function displayRes() {
         var results_short = '',
-        results_med = ''
+        results_med = '', results = ''
         // console.log(items);
         for(i=0;i<items.mediumv.length;i++) {
-            results_short += '<li data-id="'+items.shortv[i].id.videoId+'">'+items.shortv[i].snippet.title+'</li>';
-            results_med += '<li data-id="'+items.mediumv[i].id.videoId+'">'+items.mediumv[i].snippet.title+'</li>';
+            results += '<li data-id="'+items.shortv[i].id.videoId+'"><img src="'+items.shortv[i].snippet.thumbnails.default.url+'" height="50px">'+items.shortv[i].snippet.title+'</li>';
+            results += '<li data-id="'+items.mediumv[i].id.videoId+'"><img src="'+items.mediumv[i].snippet.thumbnails.default.url+'" height="50px">'+items.mediumv[i].snippet.title+'</li>';
        
         }
         // console.log(results_short);
-        $("#search-container").html('<div class="close right"><i class="fa fa-close"></i></div><br>up to 4min videos')
-        $("#search-container").append(results_short)
-        $("#search-container").append('<br>form 4 to 20 min videos')
-        $("#search-container").append(results_med)
+        // $("#search-container").html('<div class="close right"><i class="fa fa-close"></i></div><br>up to 4min videos')
+        $("#search-container").html(results)
+        // $("#search-container").append('<br>form 4 to 20 min videos')
+        // $("#search-container").append(results_med)
 
     }
     $("#search-container").on('click','.close',function(){
@@ -210,7 +230,7 @@ function getId(pastedData) {
 }
 // create youtube player
 var player;    
-function onYouTubeIframeAPIReady() {
+window.onYouTubeIframeAPIReady = function() {
     var video = 'L-6LXhFNeGw'
     player = new YT.Player('player', {
       height: '400',
@@ -255,9 +275,10 @@ function play(event) {
 var list = '', br_list = '', ac_list = '';
 var intervalo = setInterval(function(){
     getList();
-    updateBrowse();
     if(group_orig == 0) {
         activeGroups();
+    } else {
+        updateBrowse();
     }
 },10000);
 
@@ -362,7 +383,16 @@ function post(url, success) {
 }
 
 
-
+function createGroup(val) {
+    $.get('{{url("group")}}?create=1&name='+val, function(r) {
+                        // console.log(r)
+                        if(r.success == 'ok') {
+                            window.location.href = '{{url()}}/'+r.slug
+                        } else {
+                            $(".group-status").addClass("error").html(r);
+                        }
+                    })
+}
 
 
 
