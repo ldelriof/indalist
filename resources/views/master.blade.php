@@ -29,8 +29,7 @@
 <body>
 
 
-<div class="main">
-<div class="header"><h1>@yield('title')</h1></div>
+<div class="wrapper">
 <div class="menu sticky">
   <nav class="top-bar " data-topbar="" role="navigation">
     <ul class="title-area">
@@ -39,13 +38,22 @@
       <li class="toggle-topbar menu-icon"><a href=""><span>Menu</span></a></li>
     </ul>
 
-    
   <section class="top-bar-section" style="left: 0%;">
-      <ul class="left">
 
-        <li class=""><a href="{{ url() }}">uQueue</a></li>
-        <li class="divider"></li>
-        <li class=""><a href="{{ url('groups') }}">Groups</a></li>
+      <ul class="left">
+        <li class=""><a href="{{ url() }}">inDalist</a></li>
+      </ul>
+      <ul class="left tabs" data-tab>
+
+        <!-- <li class="divider"></li> -->
+        <li class=""><a href="#panel3">Groups</a></li>
+        <!-- <li class=""><a href="{{ url('groups') }}">Groups</a></li> -->
+        <li class=""><a href="#panel1">Search</a></li>
+        <li class=""><a href="#panel2">Paste</a></li>
+        @if( isset($group) )
+        <li class=""><a href="#panel4">Browse</a></li>
+        @endif
+
       </ul>
       <!-- Right Nav Section -->
       <!-- <ul class="right">
@@ -69,6 +77,11 @@
 <script src="{{ url('js/code.js')}}"></script>
 <script type="text/javascript">
 $(document).foundation();
+$(function() {
+  $(".top-bar li a").on('click', function() {
+    $("html, body").animate({ scrollTop : $(".tabs-content").offset().top - $(".top-bar").height() })
+  })
+})
 </script>
 @yield('scripts')
 </body>

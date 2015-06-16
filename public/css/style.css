@@ -14,14 +14,17 @@ h2 {
 	font-weight: bold;
 	font-size: 1.2em;
 }
-.main {
+.wrapper {
 	min-height: 100%;
+	min-height: calc(100% - 36px);
 }
-.top-bar, .top-bar-section ul li a {
+.top-bar, .top-bar-section ul li a, .top-bar.expanded .title-area,  .top-bar.expanded .title-area a span, .top-bar.expanded .toggle-topbar a {
   background: #E80C7A !important;
+  color: #fff;
 }
-.top-bar-section > ul > .divider {
+.top-bar-section > ul > .divider, .top-bar-section .divider, .top-bar-section [role="separator"] {
   border: none !important;
+  background: #E80C7A !important;
 }
 .top-bar-section ul li a:hover {
   background: #AD095B !important;
@@ -35,7 +38,8 @@ h2 {
 	text-align: center;
 }
 #player {
-	visibility: hidden;
+	/*visibility: hidden;*/
+	background: #000;
 }
 .main {
 	padding-bottom: 50px; 
@@ -54,36 +58,41 @@ h2 {
 li a {
 	outline: none;
 }
-.browse-list {
-	max-height: 200px;
-	overflow: auto;
+.browse-list, .browse-groups {
+	/*max-height: 200px;*/
+	/*overflow: auto;*/
 }
-.browse-list li, #search-container li {
+.browse-list li, #search-container li, .browse-groups li {
 	background: #dfdfdf;
 	margin-bottom: 1px;
 	list-style: none;
 	padding: 5px 10px;
 }
-.browse-list li:hover, #search-container li:hover {
+.browse-list li:hover, #search-container li:hover, .browse-groups li:hover {
 	background: #fcfcfc;
 	font-weight: 300;
 	cursor: pointer;
 }
-.inactive {
+.browse-list li.inactive {
 	color: #ccc;
+	background: #fff;
 }
 .active-list dd {
+	margin-bottom: 3px;
 	cursor: pointer;
 }
 .menu {
-	padding-bottom: 20px;
+	/* padding-bottom: 20px; */
+}
+.row {
+	max-width: 100%;
 }
 #curr_title {
 	background: #222;
 	color: #fff;
 	padding: 10px;
 	margin-top: -10px;
-	margin-bottom: 20px;
+	/* margin-bottom: 20px; */
 	font-size: 12px;
 }
 a {

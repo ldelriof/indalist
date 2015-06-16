@@ -82,11 +82,12 @@ class GroupController extends Controller {
 	{
 		//
 		$group = Group::where('slug',$id)->first();
+		$groups = Group::orderBy('id','desc')->paginate(100);
 
 		$list = Video::where('group_id', $group->id)->where('active', 0)->where('order', '>', -5)->paginate(50);
 
 		$rand = Video::where('group_id', $group->id)->where('order', '>', -5)->orderByRaw("RAND()")->first();
-		return view('groups.show')->with(['group' => $group, 'rand' => $rand, 'list' => $list]);
+		return view('groups.show')->with(['group' => $group, 'rand' => $rand, 'list' => $list, 'groups' => $groups]);
 	}
 
 	public function activeGs() {

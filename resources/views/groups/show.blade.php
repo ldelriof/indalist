@@ -6,17 +6,17 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
 @extends('master')
  
-@section('title') {{$group_name}}indalist @stop
+@section('title') {{$group_name}}inDalist @stop
 
 @section('content')
 
 
-<div class="row">
-    <div class="columns medium-10 small-centered">
+<div class="row collapse">
+    <div class="columns medium-4">
         
         
 
-        <ul class="tabs" data-tab>
+        <!-- <ul class="tabs" data-tab>
           <li class="tab-title active"><a href="#panel1">Search</a></li>
           <li class="tab-title"><a href="#panel2">Paste</a></li>
 
@@ -25,9 +25,11 @@ $group_name = isset($group) ? $group->name.' - ' : '';
           @else
           <li class="tab-title"><a href="#panel3">Groups</a></li>
           @endif
-        </ul>
+        </ul> -->
 
         <div class="tabs-content panel">
+
+            <div class="header"><h1>{{$group_name}}inDalist</h1></div>
           <div class="content active" id="panel1">
                 <div>Search:</div>
                 <input type="text" id="search-button">
@@ -42,38 +44,46 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
                 <div class="response">Paste a YouTube url to add it to the queue</div> 
          </div>
-          <div class="content" id="panel3">
 
-            <div class="browse-list">
-            @if( isset($group) )
-                    <?php foreach ($list as $l) {
-                    echo '<li data-id="'.$l->video.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
-                    # code...
-                } ?>
-            @else 
+          <div class="content" id="panel3">
+            <div class="browse-groups">
                 @foreach($groups as $gr)
                     <a href="{{$gr->slug}}"><li>{{$gr->name}}</li></a>
                 @endforeach
-            @endif
             </div>
           </div>
+
+        @if( isset($group) )
+          <div class="content" id="panel4">
+
+            <div class="browse-list">
+                <?php foreach ($list as $l) {
+                    echo '<li data-id="'.$l->video.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
+                    # code...
+                } ?>
+            </div>
+          </div>
+        @endif
         </div>
 
         
         @if( !isset($group) )
-        <h2>Now playing:</h2>
+        <div class="columns ">
+            <h2>Now playing:</h2>
             <dl class="sub-nav active-list"></dl>
             </dl>
+        </div>
         @endif
 
     </div>
-</div>
-<div id="player"></div>
-<div id="curr_title"></div>
-<div class="row">
-    <div class="columns medium-10 small-centered">
-        <div id="list_tits"></div>
-        <br>
+<!-- </div> -->
+<div class="columns medium-8">
+    <div id="player"></div>
+    <div id="curr_title"></div>
+    <!-- <div class="row"> -->
+        <!-- <div class="columns medium-10 small-centered"> -->
+            <div id="list_tits"></div>
+        <!-- </div> -->
     </div>
 </div>
 
@@ -95,7 +105,13 @@ $(window).bind('hashchange', function() {
     // getList();
 });
 
+$(window).resize(function() {
+
+    $("#player").height($("#player").width()*9/16)
+})
+
 $(function() {
+    $("#player").height($("#player").width()*9/16)
     $(".active-list").on('click', 'dd', function() {
         $(this).toggleClass("active");
         $(this).find("i").toggleClass("fa-volume-up").toggleClass("fa-volume-off");
@@ -141,8 +157,8 @@ $(function() {
         results_med = '', results = ''
         // console.log(items);
         for(i=0;i<items.mediumv.length;i++) {
-            results += '<li data-id="'+items.shortv[i].id.videoId+'"><img src="'+items.shortv[i].snippet.thumbnails.default.url+'" height="50px">'+items.shortv[i].snippet.title+'</li>';
-            results += '<li data-id="'+items.mediumv[i].id.videoId+'"><img src="'+items.mediumv[i].snippet.thumbnails.default.url+'" height="50px">'+items.mediumv[i].snippet.title+'</li>';
+            results += '<li data-id="'+items.shortv[i].id.videoId+'"><img class="hide-for-medium left" src="'+items.shortv[i].snippet.thumbnails.default.url+'" height="50px">'+items.shortv[i].snippet.title+'</li>';
+            results += '<li data-id="'+items.mediumv[i].id.videoId+'"><img class="hide-for-medium left" src="'+items.mediumv[i].snippet.thumbnails.default.url+'" height="50px">'+items.mediumv[i].snippet.title+'</li>';
        
         }
         // console.log(results_short);
