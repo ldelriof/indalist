@@ -411,7 +411,6 @@ function getActGroups() {
         listen_on = listen_on.replace(/g/g, ',')
         group_list = listen_on.substr(1)
 }
-
 function updateBrowse() {
     $.get('{{url("videos?take=150")}}&inactive=1&group='+group_list, function(data) {
         // console.log(data)
