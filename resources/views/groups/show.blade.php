@@ -399,7 +399,6 @@ function activeGroups() {
         // getList();
 
     })
-
 }
 function getActGroups() {
         listen_on = ''
