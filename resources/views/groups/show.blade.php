@@ -12,21 +12,8 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
 
 <div class="row collapse">
-    <div class="columns medium-4">
+    <div class="columns medium-4 fija">
         
-        
-
-        <!-- <ul class="tabs" data-tab>
-          <li class="tab-title active"><a href="#panel1">Search</a></li>
-          <li class="tab-title"><a href="#panel2">Paste</a></li>
-
-          @if( isset($group) )
-          <li class="tab-title"><a href="#panel3">Browse</a></li>
-          @else
-          <li class="tab-title"><a href="#panel3">Groups</a></li>
-          @endif
-        </ul> -->
-
         <div class="tabs-content panel">
 
             <div class="header"><h1>{{$group_name}}inDalist</h1></div>
@@ -87,7 +74,10 @@ $group_name = isset($group) ? $group->name.' - ' : '';
             </dl>
         @endif
         </div>
-
+        <div class="columns"><br>
+            <h2>Might also like:</h2>
+            <div class="related"></div>
+        </div>
 
     </div>
 <!-- </div> -->
@@ -106,21 +96,6 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 @section('scripts')
 
 <script type="text/javascript">
-var player;  
-window.onYouTubeIframeAPIReady = function() {
-    var video = 'L-6LXhFNeGw'
-    player = new YT.Player('player', {
-      height: '400',
-      width: '100%',
-      videoId: video,
-      events: {
-        'onReady': queueVideo,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-    
-}
-
 
 var group_orig = '{{$group_id}}', group_list;
 
@@ -228,8 +203,9 @@ $(function() {
         $("#search-container").html('');
     });
 
-    $("#search-container").on('click','li',function(){
+    $("#search-container, .related").on('click','li',function(){
         $(".response").animate({opacity : 1});
+        $(this).addClass("selected");
         // console.log($(this).attr('data-id'));
         id = $(this).attr('data-id');
         addtoQ(id)
@@ -301,6 +277,20 @@ function getId(pastedData) {
     }
 }
 // create youtube player
+var player;  
+window.onYouTubeIframeAPIReady = function() {
+    var video = 'L-6LXhFNeGw'
+    player = new YT.Player('player', {
+      height: '400',
+      width: '100%',
+      videoId: video,
+      events: {
+        'onReady': queueVideo,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+    
+}
 
 function onPlayerStateChange(event) {        
     if(event.data === 0) {            
@@ -329,6 +319,9 @@ function play(event) {
                 $("#curr_title").text(name); 
                 $("#player").css("visibility", "visible");
                 getList();
+                if(data[0]) {
+                    getRelated(video);
+                }
             })
 }
 var list = '', br_list = '', ac_list = '';
@@ -346,7 +339,40 @@ var listen = [], listen_on = '';
 if(group_orig == 0) {
     activeGroups();
 }
+// function getRelated(video) {
+//     // var related = [];
+//     $(".related").empty();
+//     // var doneload = 0;
+//     $.get('https://www.googleapis.com/youtube/v3/search?part=snippet&videoDuration=short&relatedToVideoId='+video+'&type=video&maxResults=20&key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4', function(data) {
+//         console.log(data.items);
+//         // related.push(data.items)
+//         for(r=0; r<data.items.length; r++) {
+//             $(".related").append('<li>'+data.items[r].snippet.title+'</li>')
+//         }
+//     })
 
+// }
+function getRelated(video) {
+    $(".related").empty();
+    // var data
+    $.get('https://www.googleapis.com/youtube/v3/search?part=snippet&relatedToVideoId='+video+'&type=video&maxResults=20&key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4', function(data) {
+        // console.log(data.items);
+        // data = data;
+        var rI = 4;
+        for(r=rI; r<data.items.length; r++) {
+            $.get('https://www.googleapis.com/youtube/v3/videos?key=AIzaSyA_jLUnIjURH8JiSotlKgWHU5SkKmvS3n4&part=contentDetails&id='+data.items[r].id.videoId, function(details) {
+                duration = details.items[0].contentDetails.duration
+                durationK = duration.split(/[\d]+/)
+                duration = duration.split(/[\D]+/)
+                if(durationK[1] != "H" && duration[durationK.indexOf("M")] < 20){
+                    $(".related").append('<li data-id="'+data.items[rI].id.videoId+'">'+data.items[rI].snippet.title+'</li>')
+                }
+                rI++
+            })
+        }
+    })
+
+}
 
 function activeGroups() {
     $.get('{{url("groups/active")}}', function(data) {
@@ -453,7 +479,11 @@ function createGroup(val) {
                     })
 }
 
-
+setTimeout(function(){
+    if (typeof(player) == 'undefined'){
+        window.onYouTubeIframeAPIReady();
+    }
+}, 3000)
 
 
 </script>

@@ -1,5 +1,18 @@
 /* colores opciones
+azul
 00EEFF
+
+naranja
+A53708 -- 812C07
+
+naranja2
+F13900 -- 711B00
+
+rosa
+E80C7A -- AD095B -- 820744
+
+rojo
+A50814 -- 770710
 
 */
 body {
@@ -52,7 +65,7 @@ h2 {
 .url {
 	margin-bottom: 0 !important;
 }
-.list .up, .list .down, #search-container li {
+.list .up, .list .down, #search-container li, .related li {
 	cursor: pointer;
 }
 li a {
@@ -62,20 +75,23 @@ li a {
 	/*max-height: 200px;*/
 	/*overflow: auto;*/
 }
-.browse-list li, #search-container li, .browse-groups li {
+.browse-list li, #search-container li, .browse-groups li, .related li {
 	background: #dfdfdf;
 	margin-bottom: 1px;
 	list-style: none;
 	padding: 5px 10px;
 }
-.browse-list li:hover, #search-container li:hover, .browse-groups li:hover {
+.browse-list li:hover, #search-container li:hover, .browse-groups li:hover, .related li:hover {
 	background: #fcfcfc;
-	font-weight: 300;
+	/*font-weight: 300;*/
 	cursor: pointer;
 }
 .browse-list li.inactive {
 	color: #ccc;
 	background: #fff;
+}
+.related li.selected {
+	display: none;
 }
 .active-list dd {
 	margin-bottom: 3px;
@@ -99,7 +115,7 @@ a {
   color: #820744;
 }
 a:hover {
-  color: #E80C7A;
+  color: #AD095B;
 }
 .sub-nav dd.active a {
   background: #E80C7A;
@@ -145,4 +161,12 @@ a:hover {
 	color: #fff;
 	padding: 10px;
 	font-size: 10px;
+	position: relative;/*
+	z-index: 100;*/
+}
+.fija {  
+	/*max-height: 100%;
+  overflow: auto;
+  position: fixed;
+  padding-bottom: 120px;*/
 }
