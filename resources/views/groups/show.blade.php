@@ -396,8 +396,6 @@ function activeGroups() {
         $(".active-list").html(ac_list);
         ac_list = '';
         getActGroups();
-        // getList();
-
     })
 }
 function getActGroups() {
