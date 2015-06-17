@@ -71,8 +71,8 @@ h2 {
 li a {
 	outline: none;
 }
-.browse-list, /* .related, .browse-groups  */ {
-	max-height: 400px;
+.browse-list/*,  .related, .browse-groups  */ {
+	max-height: 300px;
 	overflow: auto;
 }
 .browse-list li, #search-container li, .browse-groups li, .related li {
