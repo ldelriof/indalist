@@ -71,9 +71,9 @@ h2 {
 li a {
 	outline: none;
 }
-.browse-list, .browse-groups {
-	/*max-height: 200px;*/
-	/*overflow: auto;*/
+.browse-list, /* .related, .browse-groups  */ {
+	max-height: 400px;
+	overflow: auto;
 }
 .browse-list li, #search-container li, .browse-groups li, .related li {
 	background: #dfdfdf;
