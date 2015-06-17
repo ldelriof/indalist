@@ -413,7 +413,7 @@ function getActGroups() {
 }
 
 function updateBrowse() {
-    $.get('{{url("videos?take=50")}}&inactive=1&group='+group_list, function(data) {
+    $.get('{{url("videos?take=150")}}&inactive=1&group='+group_list, function(data) {
         // console.log(data)
         for(i = 0 ;i < data.length;i++) {
             br_list += '<li data-id="'+data[i].video+'">'
