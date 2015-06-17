@@ -106,6 +106,21 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 @section('scripts')
 
 <script type="text/javascript">
+var player;  
+window.onYouTubeIframeAPIReady = function() {
+    var video = 'L-6LXhFNeGw'
+    player = new YT.Player('player', {
+      height: '400',
+      width: '100%',
+      videoId: video,
+      events: {
+        'onReady': queueVideo,
+        'onStateChange': onPlayerStateChange
+      }
+    });
+    
+}
+
 
 var group_orig = '{{$group_id}}', group_list;
 
@@ -286,20 +301,7 @@ function getId(pastedData) {
     }
 }
 // create youtube player
-var player;    
-window.onYouTubeIframeAPIReady = function() {
-    var video = 'L-6LXhFNeGw'
-    player = new YT.Player('player', {
-      height: '400',
-      width: '100%',
-      videoId: video,
-      events: {
-        'onReady': queueVideo,
-        'onStateChange': onPlayerStateChange
-      }
-    });
-    
-}
+
 function onPlayerStateChange(event) {        
     if(event.data === 0) {            
         queueVideo(event)
