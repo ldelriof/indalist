@@ -46,6 +46,19 @@ $group_name = isset($group) ? $group->name.' - ' : '';
          </div>
 
           <div class="content" id="panel3">
+            <div class="group row collapse">
+                <div>
+                  Create a group
+                </div>
+              <div class="columns medium-12 large-8">
+                <input type="text" id="group-create" class="error">
+                <span class="group-status"></span>
+              </div>
+              <div class="columns medium-12 large-4">
+                <div class="postfix button disabled group-create secondary">Create</div>
+              </div>
+
+            </div>
             <div class="browse-groups">
                 @foreach($groups as $gr)
                     <a href="{{$gr->slug}}"><li>{{$gr->name}}</li></a>
@@ -53,27 +66,28 @@ $group_name = isset($group) ? $group->name.' - ' : '';
             </div>
           </div>
 
-        @if( isset($group) )
-          <div class="content" id="panel4">
+        
+        </div>
 
+        
+        <div class="columns ">
+        @if( isset($group) )
+            @if(count($list) > 0)
+            <h2>Play again:</h2>
             <div class="browse-list">
                 <?php foreach ($list as $l) {
                     echo '<li data-id="'.$l->video.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
                     # code...
                 } ?>
             </div>
-          </div>
-        @endif
-        </div>
-
-        
-        @if( !isset($group) )
-        <div class="columns ">
+            @endif
+        @else
             <h2>Now playing:</h2>
             <dl class="sub-nav active-list"></dl>
             </dl>
-        </div>
         @endif
+        </div>
+
 
     </div>
 <!-- </div> -->
@@ -111,6 +125,33 @@ $(window).resize(function() {
 })
 
 $(function() {
+    $("#group-create").on('keyup',function(e){
+        $.get('{{url("group")}}?name='+$(this).val(), function(data){
+            console.log(data);
+
+            $(".group-status").removeClass("error");
+            $(".group-create").addClass("disabled");
+            $(".group-status").html("");
+
+            if(data == 'disabled') {
+                $(".group-create").addClass("disabled");
+            }
+            else if ( data == 'Already taken') {
+                $(".group-status").addClass("error").html(data);
+
+            } else {
+                $(".group-create").removeClass("disabled").on('click', function() {
+                    createGroup($("#group-create").val())
+                });
+                if(e.keyCode == 13) {
+            createGroup($("#group-create").val());
+        }
+                $(".group-status").html("");
+            }
+
+        })
+    })
+
     $("#player").height($("#player").width()*9/16)
     $(".active-list").on('click', 'dd', function() {
         $(this).toggleClass("active");

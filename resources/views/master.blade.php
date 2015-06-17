@@ -50,9 +50,6 @@
         <!-- <li class=""><a href="{{ url('groups') }}">Groups</a></li> -->
         <li class=""><a href="#panel1">Search</a></li>
         <li class=""><a href="#panel2">Paste</a></li>
-        @if( isset($group) )
-        <li class=""><a href="#panel4">Browse</a></li>
-        @endif
 
       </ul>
       <!-- Right Nav Section -->
