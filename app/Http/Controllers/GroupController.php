@@ -88,7 +88,7 @@ class GroupController extends Controller {
 		$list = Video::where('group_id', $group->id)->where('active', 0)->where('order', '>', -5)->paginate(150);
 		$rand = Video::where('group_id', $group->id)->where('order', '>', -5)->orderByRaw("RAND()")->first();
 
-		$video = Video::where('group_id', $group->id)->where('order', '>', -5)->orderBy('updated_at','asc')->first();
+		$video = Video::where('group_id', $group->id)->where('order', '>', -5)->orderBy('updated_at','desc')->first();
 		$url = url().'/'.$id;
 		return view('groups.show')->with(['group' => $group, 'rand' => $rand, 'list' => $list, 'groups' => $groups, 'video' => $video, 'url' => $url]);
 	}
