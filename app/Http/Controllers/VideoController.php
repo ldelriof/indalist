@@ -25,7 +25,7 @@ class VideoController extends Controller {
 			$videos = $videos->whereIn('group_id',$groups);
 		}
 
-		$videos = $videos->orderBy('order','desc')->orderBy('updated_at','asc')->take($take)->with('group')->get();
+		$videos = $videos->orderBy('order','desc')->orderBy('updated_at','desc')->take($take)->with('group')->get();
 
 		return response()->json($videos);
 	}
