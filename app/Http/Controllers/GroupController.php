@@ -83,7 +83,7 @@ class GroupController extends Controller {
 		//
 		$group = Group::where('slug',$id)->first();
 		$group->touch();
-		$groups = Group::orderBy('created_at','desc')->paginate(100);
+		$groups = Group::orderBy('updated_at','desc')->paginate(100);
 
 		$list = Video::where('group_id', $group->id)->where('active', 0)->where('order', '>', -5)->paginate(150);
 
