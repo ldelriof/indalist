@@ -383,9 +383,7 @@ function activeGroups() {
             } else {
                 listen['g'+g_id] = 'on';
             }
-
             // console.log(listen);
-
             active = listen['g'+g_id] == 'on' ? 'active' : ''
             vol = listen['g'+g_id] == 'on' ? 'up' : 'off'
             ac_list += '<dd class="'+active+'" data-id="g'+g_id+'"><a>'
