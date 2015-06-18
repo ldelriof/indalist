@@ -376,8 +376,8 @@ function activeGroups() {
 
             if(groups) {
                 grAct = groups.split(',');
-                console.log(grAct);
-                console.log(grAct.indexOf('0'));
+                // console.log(grAct);
+                // console.log(grAct.indexOf('0'));
 
                 if(grAct.indexOf(''+g_id) < 0) {
                     listen['g'+g_id] = 'off';
