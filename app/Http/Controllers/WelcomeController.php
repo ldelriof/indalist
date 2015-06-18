@@ -43,8 +43,8 @@ class WelcomeController extends Controller {
 
 		$video = Video::where('active', 1)->where('order', '>', -5)->orderBy('order','desc')->orderBy('updated_at','asc')->first();
 
-		
-		return view('groups.show')->with(['sec' => $sec, 'ip' => $ip, 'rand' => $rand, 'list' => $list, 'groups' => $groups, 'video' => $video]);
+		$url = url();
+		return view('groups.show')->with(['sec' => $sec, 'ip' => $ip, 'rand' => $rand, 'list' => $list, 'groups' => $groups, 'video' => $video, 'url' => $url]);
 
 	}
 

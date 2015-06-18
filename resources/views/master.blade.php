@@ -5,6 +5,7 @@
     <?php
      // print_r($video); ?>
     <meta property="fb:app_id" content="1414002345593927" />
+    <meta property="og:url" content="<?php echo $url ?>" />
     <meta property="og:type" content="video" />
     <meta property="og:video" content="https://www.youtube.com/v/<?php echo $video->video ?>">
     <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
@@ -84,6 +85,16 @@ $(function() {
   $(".top-bar li a").on('click', function() {
     $("html, body").animate({ scrollTop : $(".tabs-content").offset().top - $(".top-bar").height() })
   })
+  $.post(
+      'https://graph.facebook.com',
+      {
+          id: '<?php echo $url; ?>',
+          scrape: true
+      }
+      // function(response){
+      //     console.log(response);
+      // }
+  );
 })
 </script>
 @yield('scripts')
