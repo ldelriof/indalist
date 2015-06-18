@@ -41,7 +41,7 @@ class WelcomeController extends Controller {
 		// $groups = Group::orderBy('id','desc')->paginate(100);
 		$groups = Group::orderBy('updated_at','desc')->paginate(100);
 
-		$video = Video::where('active', 1)->where('order', '>', -5)->orderBy('order','desc')->orderBy('updated_at','asc')->first();
+		$video = Video::where('order', '>', -5)->orderBy('updated_at','asc')->first();
 
 		$url = url();
 		return view('groups.show')->with(['sec' => $sec, 'ip' => $ip, 'rand' => $rand, 'list' => $list, 'groups' => $groups, 'video' => $video, 'url' => $url]);
