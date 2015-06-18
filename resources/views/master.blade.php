@@ -5,7 +5,8 @@
     <!-- <meta property="og:image" content="" /> -->
     <!-- <meta property="og:image:height" content="400" /> -->
     <!-- <meta property="og:title" content="" /> -->
-
+    <meta property="fb:app_id" content="1414002345593927" />
+    <meta property="og:type" content="video" />
     <meta property="og:video" content="https://www.youtube.com/v/<?php echo $video->video ?>">
 
 
