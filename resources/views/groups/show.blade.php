@@ -300,7 +300,11 @@ function onPlayerStateChange(event) {
 var video_played = false;
 function queueVideo(event) {
     if(video_played) {
-        $.get('{{url("video")}}/'+video_played+'/update?active=0', function() {
+        $.get('{{url("video")}}/'+video_played+'/update?active=0', function(e) {
+            // console.log(e);
+            if(e == 1) {
+                $.post('https://graph.facebook.com', { id: '<?php echo $url; ?>', scrape: true });
+            }
             play(event);
         });
     } else{

@@ -91,16 +91,6 @@ $(function() {
   $(".top-bar li a").on('click', function() {
     $("html, body").animate({ scrollTop : $(".tabs-content").offset().top - $(".top-bar").height() })
   })
-  $.post(
-      'https://graph.facebook.com',
-      {
-          id: '<?php echo $url; ?>',
-          scrape: true
-      }
-      // function(response){
-      //     console.log(response);
-      // }
-  );
 })
 </script>
 @yield('scripts')

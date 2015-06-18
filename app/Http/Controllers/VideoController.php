@@ -126,6 +126,8 @@ class VideoController extends Controller {
 	{
 		$video = Video::find($id);
 
+		$already_off = $video->active;
+
 		$video->active = Input::get('active');
 		if(Input::get('voteup')) $video->voteup = $video->voteup + 1;
 		if(Input::get('votedown')) $video->votedown = $video->votedown + 1;
@@ -133,7 +135,7 @@ class VideoController extends Controller {
 		$video->order = $video->voteup - $video->votedown;	
 
 		if($video->save()) {
-			return 'Added to queue';
+			return $already_off;
 		} else {
 			return 'error';
 		}
