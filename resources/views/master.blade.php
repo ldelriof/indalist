@@ -2,13 +2,15 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <!--
     <?php
-     // print_r($video); ?>
+    print_r($video); ?>
+    -->
     <meta property="fb:app_id" content="1414002345593927" />
     <meta property="og:url" content="<?php echo $url ?>" />
     <meta property="og:type" content="video" />
-    <meta property="og:video" content="https://www.youtube.com/v/<?php echo $video->video ?>">
-    <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
+    <meta property="og:video" content="https://www.youtube.com/v/<?php //echo $video->video ?>">
+    <meta property="og:image" content="https://img.youtube.com/vi/<?php //echo $video->video ?>/0.jpg" />
     <meta property="og:image:height" content="400" />
     <meta property="og:video:type" content="video/mp4">
     <meta property="og:description" content="Search - Add to queue - Listen" />

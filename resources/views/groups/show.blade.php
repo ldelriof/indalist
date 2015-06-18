@@ -386,9 +386,11 @@ function activeGroups() {
             // console.log(listen);
             active = listen['g'+g_id] == 'on' ? 'active' : ''
             vol = listen['g'+g_id] == 'on' ? 'up' : 'off'
-            ac_list += '<dd class="'+active+'" data-id="g'+g_id+'"><a>'
-            ac_list += data[i].group ? data[i].group.name : 'Home'
-            ac_list += ' <i class="fa fa-volume-'+vol+'"></i></a></dd>'
+            if(data[i].group) {
+                ac_list += '<dd class="'+active+'" data-id="g'+g_id+'"><a>'
+                ac_list += data[i].group ? data[i].group.name : 'Home'
+                ac_list += ' <i class="fa fa-volume-'+vol+'"></i></a></dd>'
+            }
             
         }
         $(".active-list").html(ac_list);
