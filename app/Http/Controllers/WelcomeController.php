@@ -38,7 +38,8 @@ class WelcomeController extends Controller {
 
 		$rand = Video::where('order', '>', -5)->orderByRaw("RAND()")->first();
 		$list = Video::where('active', 0)->where('order', '>', -5)->paginate(50);
-		$groups = Group::orderBy('id','desc')->paginate(100);
+		// $groups = Group::orderBy('id','desc')->paginate(100);
+		$groups = Group::orderBy('created_at','desc')->paginate(100);
 
 		return view('groups.show')->with(['sec' => $sec, 'ip' => $ip, 'rand' => $rand, 'list' => $list, 'groups' => $groups]);
 
