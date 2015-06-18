@@ -2,6 +2,8 @@
 <!doctype html>
 <html lang="en">
   <head>
+    <?php
+     // print_r($video); ?>
     <meta property="fb:app_id" content="1414002345593927" />
     <meta property="og:type" content="video" />
     <meta property="og:video" content="https://www.youtube.com/v/<?php echo $video->video ?>">
