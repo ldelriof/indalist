@@ -6,6 +6,9 @@
     <!-- <meta property="og:image:height" content="400" /> -->
     <!-- <meta property="og:title" content="" /> -->
 
+    <meta property="og:video" content="http://www.youtube.com/v/<?php echo $video->video ?>">
+
+
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />

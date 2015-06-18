@@ -70,7 +70,6 @@ class GroupController extends Controller {
 		$group = Input::get('name');
 		$slug = slugify($group);
 
-	}
 
 	/**
 	 * Display the specified resource.
@@ -86,9 +85,10 @@ class GroupController extends Controller {
 		$groups = Group::orderBy('updated_at','desc')->paginate(100);
 
 		$list = Video::where('group_id', $group->id)->where('active', 0)->where('order', '>', -5)->paginate(150);
+		$video = Video::where('group_id', $group->id)->where('active', 1)->where('order', '>', -5)->orderBy('order','desc')->orderBy('updated_at','asc')->first();
 
 		$rand = Video::where('group_id', $group->id)->where('order', '>', -5)->orderByRaw("RAND()")->first();
-		return view('groups.show')->with(['group' => $group, 'rand' => $rand, 'list' => $list, 'groups' => $groups]);
+		return view('groups.show')->with(['group' => $group, 'rand' => $rand, 'list' => $list, 'groups' => $groups, $video => 'video']);
 	}
 
 	public function activeGs() {
