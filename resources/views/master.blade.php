@@ -75,7 +75,7 @@
       <ul class="left tabs" data-tab>
 
         <!-- <li class="divider"></li> -->
-        <li class=""><a href="#panel3">Groups</a></li>
+        <li class=""><a href="#panel3">Lists</a></li>
         <!-- <li class=""><a href="{{ url('groups') }}">Groups</a></li> -->
         <li class=""><a href="#panel1">Search</a></li>
         <li class=""><a href="#panel2">Paste</a></li>

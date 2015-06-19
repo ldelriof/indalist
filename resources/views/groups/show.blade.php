@@ -35,7 +35,7 @@ $group_name = isset($group) ? $group->name.' - ' : '';
           <div class="content" id="panel3">
             <div class="group row collapse">
                 <div>
-                  Create a group
+                  Create a list
                 </div>
               <div class="columns medium-12 large-8">
                 <input type="text" id="group-create" class="error">
