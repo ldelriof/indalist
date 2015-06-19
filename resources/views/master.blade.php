@@ -7,9 +7,8 @@
     // print_r($video); ?>
     -->
 
-    <meta property="og:url" content="http://www.youtube.com/watch?v=iF7wrp19ssY">
-    <meta property="og:title" content="@yield('title')">
-    <meta property="og:url" content="<?php echo $url ?>" />
+  <meta property="og:url" content="<?php echo $url ?>" />
+   <meta property="og:title" content="@yield('title')">
     @if($video)
 
     <meta property="og:site_name" content="inDalist">
