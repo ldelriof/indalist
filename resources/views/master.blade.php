@@ -13,8 +13,11 @@
 
     <meta property="og:site_name" content="inDalist">
     <meta property="og:description" content="<?php echo $video->name ?>\r\n Search - Add to queue - Listen" />
-    <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
 
+    <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
+    <meta property="og:image:height" content="400" />  
+
+      
     <meta property="og:type" content="video" />
       <meta property="og:video:url" content="https://www.youtube.com/embed/<?php echo $video->video ?>">
       <meta property="og:video:secure_url" content="https://www.youtube.com/embed/<?php echo $video->video ?>">
@@ -27,11 +30,11 @@
       <meta property="og:video:type" content="application/x-shockwave-flash">
       <meta property="og:video:width" content="1280">
       <meta property="og:video:height" content="720">
+
       
     @else
       <meta property="og:description" content="Search - Add to queue - Listen" />
-    @endif
-    <meta property="og:image:height" content="400" />    
+    @endif  
     <meta property="fb:app_id" content="1414002345593927" />
 
     <meta name="csrf-token" content="{{ csrf_token() }}" />
