@@ -32,7 +32,7 @@ class VideoController extends Controller {
 
 		}
 
-		->take($take)->with('group')->get();
+		$videos = $videos->take($take)->with('group')->get();
 
 		return response()->json($videos);
 	}
