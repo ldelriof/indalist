@@ -18,8 +18,8 @@
     <meta property="og:image:height" content="400" />  
 
 
-    <meta property="og:type" content="video" />
-      <meta property="og:video:url" content="https://www.youtube.com/embed/<?php echo $video->video ?>">
+    <!-- <meta property="og:type" content="video" /> -->
+<!--       <meta property="og:video:url" content="https://www.youtube.com/embed/<?php echo $video->video ?>">
       <meta property="og:video:secure_url" content="https://www.youtube.com/embed/<?php echo $video->video ?>">
       <meta property="og:video:type" content="text/html">
       <meta property="og:video:width" content="1280">
@@ -29,7 +29,7 @@
       <meta property="og:video:secure_url" content="https://www.youtube.com/v/<?php echo $video->video ?>">
       <meta property="og:video:type" content="application/x-shockwave-flash">
       <meta property="og:video:width" content="1280">
-      <meta property="og:video:height" content="720">
+      <meta property="og:video:height" content="720"> -->
 
       
     @else
