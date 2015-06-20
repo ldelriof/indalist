@@ -9,9 +9,9 @@
 
   <meta property="og:url" content="<?php echo $url ?>" />
   <meta property="og:title" content="@yield('title')">
+  <meta property="og:site_name" content="inDalist">
     @if($video)
 
-    <meta property="og:site_name" content="inDalist">
     <meta property="og:description" content="<?php echo $video->name ?>\r\n Search - Add to queue - Listen" />
 
     <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
