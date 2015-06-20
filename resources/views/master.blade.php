@@ -8,7 +8,7 @@
     -->
 
   <meta property="og:url" content="<?php echo $url ?>" />
-   <meta property="og:title" content="@yield('title')">
+  <meta property="og:title" content="@yield('title')">
     @if($video)
 
     <meta property="og:site_name" content="inDalist">
@@ -17,7 +17,7 @@
     <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
     <meta property="og:image:height" content="400" />  
 
-      
+
     <meta property="og:type" content="video" />
       <meta property="og:video:url" content="https://www.youtube.com/embed/<?php echo $video->video ?>">
       <meta property="og:video:secure_url" content="https://www.youtube.com/embed/<?php echo $video->video ?>">
