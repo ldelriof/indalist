@@ -25,7 +25,7 @@ class VideoController extends Controller {
 			$videos = $videos->whereIn('group_id',$groups);
 		}
 
-		if($take > 100) {
+		if($take < 100) {
 			$videos = $videos->orderBy('updated_at','desc');
 		}	else {
 			$videos = $videos->orderBy('updated_at','asc')->orderBy('order','desc');
