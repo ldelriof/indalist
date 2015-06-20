@@ -24,13 +24,13 @@ class VideoController extends Controller {
 			$groups = explode(',', Input::get('group'));
 			$videos = $videos->whereIn('group_id',$groups);
 		}
-
+		
 		if($videos < 100) {
 			$videos = $videos->orderBy('order','desc');
 		}
 		$videos = $videos->orderBy('updated_at','asc');
 
-		->take($take)->with('group')->get();
+		$videos = $videos->take($take)->with('group')->get();
 
 		return response()->json($videos);
 	}
