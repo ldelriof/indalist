@@ -25,14 +25,12 @@ class VideoController extends Controller {
 			$videos = $videos->whereIn('group_id',$groups);
 		}
 
-		if($take < 100) {
-			$videos = $videos->orderBy('updated_at','desc');
-		}	else {
-			$videos = $videos->orderBy('updated_at','asc')->orderBy('order','desc');
-
+		if($videos < 100) {
+			$videos = $videos->orderBy('order','desc');
 		}
+		$videos = $videos->orderBy('updated_at','asc');
 
-		$videos = $videos->take($take)->with('group')->get();
+		->take($take)->with('group')->get();
 
 		return response()->json($videos);
 	}
