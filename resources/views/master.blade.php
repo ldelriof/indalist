@@ -13,9 +13,9 @@
     @if($video)
 
     <meta property="og:description" content="<?php echo $video->name ?>\r\n Search - Add to queue - Listen" />
-    <meta property="og:image" content="{{url()}}/test.jpg" />
+    <!-- <meta property="og:image" content="{{url()}}/test.jpg" /> -->
 
-    <!-- <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" /> -->
+    <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
     <meta property="og:image:height" content="400" />  
 
 
