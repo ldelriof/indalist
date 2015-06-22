@@ -35,6 +35,7 @@
       
     @else
       <meta property="og:description" content="Search - Add to queue - Listen" />
+      <meta property="og:image" content="{{url()}}/logo.png" />
     @endif  
     <meta property="fb:app_id" content="1414002345593927" />
 
