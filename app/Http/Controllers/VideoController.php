@@ -44,7 +44,7 @@ class VideoController extends Controller {
 		}
 		$rand = rand(0,7);
 		// $video = Video::where($params)->where('order', '>', -5)->where('updated_at', '<', \Carbon\Carbon::now()->subMinutes(60))->orderByRaw("RAND()")->first();
-		$video = Video::where($params)->where('order', '>', -5)->orderBy("updated_at", "desc")->skip($rand)->first();
+		$video = Video::where($params)->where('order', '>', -5)->orderBy("updated_at", "asc")->skip($rand)->first();
 		if($video) {
 			$video->active = 1;
 			$video->save();
