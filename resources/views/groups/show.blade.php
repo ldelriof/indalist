@@ -83,7 +83,8 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 <!-- </div> -->
 <div class="columns medium-8">
     <div id="player"></div>
-    <div id="curr_title"></div>
+    <div id="curr_title"><span></span><div class="right"><i class="skip fa fa-forward"></i><i class="fa-spin fa fa-circle-o-notch skip-load"></i></div></div>
+
     <!-- <div class="row"> -->
         <!-- <div class="columns medium-10 small-centered"> -->
             <div id="list_tits"></div>
@@ -240,6 +241,13 @@ $(function() {
         });
 
     })
+
+    $(".skip").on('click',function() {
+        queueVideo();
+        $(".skip-load").show();
+        $(this).hide();
+
+    })
 })
 
 function addtoQ(id) {
@@ -294,34 +302,37 @@ window.onYouTubeIframeAPIReady = function() {
 
 function onPlayerStateChange(event) {        
     if(event.data === 0) {            
-        queueVideo(event)
+        queueVideo()
     }
 }
 var video_played = false;
-function queueVideo(event) {
+function queueVideo() {
     if(video_played) {
         $.get('{{url("video")}}/'+video_played+'/update?active=0', function(e) {
             // console.log(e);
             if(e == 1) {
                 $.post('https://graph.facebook.com', { id: '<?php echo $url; ?>', scrape: true });
             }
-            play(event);
+            play();
         });
     } else{
-        play(event);
+        play();
     }
 }
 
-function play(event) {
+function play() {
      $.get('{{url("videos?take=1")}}&group='+group_list, function(data) {
                 var video = data[0] ? data[0].video : 'L-6LXhFNeGw'
                 var name = data[0] ? data[0].name : ''
                 video_played = data[0] ? data[0].id : false;
                 // console.log(data[0].video);
                 player.cueVideoById({videoId:video});
-                event.target.playVideo();  
-                $("#curr_title").text(name); 
+                // event.target.playVideo();  
+                player.playVideo();  
+                $("#curr_title span").text(name); 
                 $("#player").css("visibility", "visible");
+                $(".skip").show();
+                $(".skip-load").hide();
                 getList();
                 if(data[0]) {
                     getRelated(video);

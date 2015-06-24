@@ -110,6 +110,7 @@ li a {
 	margin-top: -10px;
 	/* margin-bottom: 20px; */
 	font-size: 12px;
+	min-height: 35px;
 }
 a {
   color: #820744;
@@ -169,4 +170,11 @@ a:hover {
   overflow: auto;
   position: fixed;
   padding-bottom: 120px;*/
+}
+.skip-load {
+	display: none;
+}
+.skip {
+	cursor: pointer;
+	display: none;
 }
