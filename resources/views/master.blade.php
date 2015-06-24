@@ -11,13 +11,13 @@
   <meta property="og:title" content="@yield('title')">
     @if($video)
 
-    <meta property="og:description" content="<?php echo $video->name ?>\r\n Search - Add to queue - Listen" />
+    <meta property="og:description" content="<?php echo $video->name ?> | Search - Add to queue - Listen - Share" />
 
     <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
-    <meta property="og:image" content="{{url()}}/test.jpg" />
+    <!-- <meta property="og:image" content="{{url()}}/test.jpg" /> -->
       
     @else
-      <meta property="og:description" content="Search - Add to queue - Listen" />
+      <meta property="og:description" content="Search - Add to queue - Listen - Share" />
       <meta property="og:image" content="{{url()}}/test.png" />
     @endif  
     <meta property="fb:app_id" content="1414002345593927" />
