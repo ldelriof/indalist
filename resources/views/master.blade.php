@@ -41,7 +41,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
-    <title>@yield('title')</title>
+    <title>@yield('title') ---</title>
 
     <link rel="stylesheet" href="{{url('css/foundation.css')}}" />
     <link rel="stylesheet" href="{{url('css/font-awesome.min.css')}}" />
