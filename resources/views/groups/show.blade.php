@@ -405,6 +405,10 @@ function activeGroups() {
                 ac_list += '<dd class="'+active+'" data-id="g'+g_id+'"><a>'
                 ac_list += data[i].group ? data[i].group.name : 'Home'
                 ac_list += ' <i class="fa fa-volume-'+vol+'"></i></a></dd>'
+            } else {
+                ac_list += '<dd class="'+active+'" data-id="g'+g_id+'"><a>'
+                ac_list += 'Home'
+                ac_list += ' <i class="fa fa-volume-'+vol+'"></i></a></dd>'
             }
             
         }
@@ -448,7 +452,9 @@ function getList() {
             list += '<div class="down small-1 columns "><i class="fa fa-thumbs-down"> '+data[i].votedown+'</i></div>'
             list += '<div class="columns small-8">'+data[i].name+'</div>'
             list += '<div class="columns small-2">'
-            list +=  data[i].group ? data[i].group.name : '&nbsp;'
+            list += data[i].group ? '<a href="{{url()}}/'+data[i].group.slug+'">' : ''
+            list += data[i].group ? data[i].group.name : '&nbsp;'
+            list += data[i].group ? '</a>' : ''
             list += '</div>'
             list += '</div>'
         }
