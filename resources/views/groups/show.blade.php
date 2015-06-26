@@ -447,9 +447,12 @@ function getList() {
              $.get('{{url("video/random/".$group_id)}}');
          }
         for(i = 0 ;i < data.length;i++) {
-            list += '<div class="list row" id="'+data[i].id+'">'
-            list += '<div class="up small-1 columns "><i class="fa fa-thumbs-up"> '+data[i].voteup+'</i></div>'
-            list += '<div class="down small-1 columns "><i class="fa fa-thumbs-down"> '+data[i].votedown+'</i></div>'
+            list += '<div class="list row">'
+            list += '<div class="small-2 columns" id="'+data[i].id+'">'
+                list += '<div class="medium-4 columns ">'+data[i].order+'</div>'
+                list += '<div class="up medium-4 columns"><i class="fa fa-thumbs-up"></i></div>'
+                list += '<div class="down medium-4 columns"><i class="fa fa-thumbs-down"></i></div>'
+            list += '</div>'
             list += '<div class="columns medium-8 small-7">'+data[i].name+'</div>'
             list += '<div class="columns medium-2 small-3">'
             list += data[i].group ? '<a href="{{url()}}/'+data[i].group.slug+'">' : ''
