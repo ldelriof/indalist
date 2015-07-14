@@ -35,4 +35,9 @@ class AuthController extends Controller {
 		$this->middleware('guest', ['except' => 'getLogout']);
 	}
 
+	public function checkFacebookUser($id) {
+		$user = User::where(['provider' => 'facebook', 'provider_id' => $id]);
+		
+	}
+
 }

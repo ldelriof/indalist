@@ -1,24 +1,33 @@
-@extends('app')
 
-@section('content')
-<div class="container-fluid">
-	<div class="row">
-		<div class="col-md-8 col-md-offset-2">
-			<div class="panel panel-default">
-				<div class="panel-heading">Register</div>
-				<div class="panel-body">
-					@if (count($errors) > 0)
-						<div class="alert alert-danger">
-							<strong>Whoops!</strong> There were some problems with your input.<br><br>
-							<ul>
-								@foreach ($errors->all() as $error)
-									<li>{{ $error }}</li>
-								@endforeach
-							</ul>
-						</div>
-					@endif
+<!doctype html>
+<html class="no-js" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="csrf-token" content="{{ csrf_token() }}" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@yield('title')</title>
+    <link rel="stylesheet" href="{{ url('css/foundation.min.css') }}" />
+    <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}" />
+    <link rel="stylesheet" href="{{ url('css/style.css') }}" />
+    @yield('css')
+    <script src="{{ url('js/vendor/modernizr.js') }}"></script>
+  </head>
+  <body>
 
-					<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
+    <nav class="top-bar" data-topbar role="navigation">
+      <ul class="title-area">
+        <li class="name">
+          <h1><a href="{{ url('/') }}">inDalist</a></h1>
+        </li>
+
+         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
+      </ul>
+
+    </nav>
+    <br>
+    <div class="panel  columns small-9 medium-6 small-centered">
+		<form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/register') }}">
 						<input type="hidden" name="_token" value="{{ csrf_token() }}">
 
 						<div class="form-group">
@@ -58,8 +67,10 @@
 						</div>
 					</form>
 				</div>
-			</div>
-		</div>
-	</div>
-</div>
-@endsection
+
+    <script src="{{ url('js/vendor/jquery.js') }}"></script>
+    <script src="{{ url('js/foundation.min.js') }}"></script>
+      @yield('scripts')
+  </body>
+</html>
+
