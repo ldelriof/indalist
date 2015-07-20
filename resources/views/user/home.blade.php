@@ -117,7 +117,7 @@ $(function() {
                     createGroup($("#group-create").val())
                 });
                 if(e.keyCode == 13) {
-            createGroup($("#group-create").val());
+                    createGroup($("#group-create").val());
         }
                 $(".group-status").html("");
             }
