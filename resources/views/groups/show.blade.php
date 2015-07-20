@@ -264,14 +264,14 @@ $(function() {
     });
 
     $("#list_tits").on('click', '.up', function(e){
-        var id = $(this).parent().attr('id');
+        var id = $(this).parent().parent().attr('id');
         $.get('{{url("video")}}/'+id+'/update?active=1&voteup=1', function(e) {
             getList();
         });
     })
 
     $("#list_tits").on('click', '.down', function(e){
-        var id = $(this).parent().attr('id');
+        var id = $(this).parent().parent().attr('id');
         $.get('{{url("video")}}/'+id+'/update?active=1&votedown=1', function() {
             getList();
         });
