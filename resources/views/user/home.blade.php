@@ -1,4 +1,4 @@
-
+<?php $ids = '' ?>
 @extends('user.master')
  
 @section('content')
@@ -18,7 +18,6 @@
       </div>
     </div>
     @else 
-    <?php $ids = '' ?>
     @foreach($lists as $list)
     <?php $ids .= '#'.$list->slug.', ' ?>
     <div class="columns list-title">
