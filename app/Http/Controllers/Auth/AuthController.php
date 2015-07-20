@@ -45,16 +45,16 @@ class AuthController extends Controller {
 			return $response;
 		} else {
 			$name = Input::get('name');
-			$email = Input::get('email');
-			$this->createFbUser($id, $name, $email);
+			// $email = (Input::get('email') != 'undefined');
+			$this->createFbUser($id, $name);
 			$response = ['status' => 'connected', 'location' => url('home')];
 			return $response;
 		}
 	}
 
-	public function createFbUser($id, $name, $email)
+	public function createFbUser($id, $name)
 	{
-		$user = User::create(['provider' => 'facebook', 'provider_id' => $id, 'name' => $name, 'email' => $email]);
+		$user = User::create(['provider' => 'facebook', 'provider_id' => $id, 'name' => $name]);
 		Auth::loginUsingId($user->id, true);
 	}
 
