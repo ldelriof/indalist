@@ -130,6 +130,12 @@ var group_orig = '{{$group_id}}', group_list;
 <?php if($user && $user->library()): ?>
 var user_lib = '{{$user->library()->id}}';
 <?php endif ?>
+
+
+<?php if($user && !$user->library()): ?>
+    alert('please create your library list first, there you\'ll can directly add the songs you like');
+    window.location = '{{url('home')}}'
+<?php endif ?>
 var groups = window.location.hash.toString().split('/')[1];
     group_list = groups ? groups : '{{$group_id}}';
     // group_orig = groups;
