@@ -146,6 +146,27 @@ $(window).resize(function() {
 })
 
 $(function() {
+
+    $(".delete").on('click', function() {
+        $(this).hide();
+        $(this).next().show();
+        line = $(this).parent();
+        id = line.attr('data-id');
+        console.log(id)
+        url = '{{url()}}/video/'+id
+        $.ajax({headers: {'X-CSRF-TOKEN': '{{ csrf_token() }}' },
+            method: 'DELETE',
+            url: url, 
+            success: function(e) {
+                if(e == 'ok') {
+                    line.fadeOut();
+                }
+                console.log(e);
+            }
+        })
+
+    })
+    
     $("#group-create").on('keyup',function(e){
         $.get('{{url("group")}}?name='+$(this).val(), function(data){
             console.log(data);
@@ -526,7 +547,7 @@ function getList() {
                 list += '<i class="fa-spin fa fa-circle-o-notch add-list-load"></i>'
             @endif
             @if($owner)
-                // list += '<i class="fa fa-close delete" data-id="'+data[i].id+'"></i>'
+                list += '<i class="fa fa-close delete" data-id="'+data[i].id+'"></i>'
             @endif
             list += '</span>'
             
