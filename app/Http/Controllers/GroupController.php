@@ -96,9 +96,9 @@ class GroupController extends Controller {
 		$groups = Group::where('private', 0)->orderBy('updated_at','desc')->paginate(100);
 
 		if($group->private == 2) {
-			$list = Video::where('user_id', $user->id)->where('active', 0)->where('order', '>', -5)->groupBy('video')->paginate(200);
+			$list = Video::where('user_id', $user->id)->where('active', 0)->groupBy('video')->paginate(200);
 			$rand = Video::where('user_id', $user->id)->where('order', '>', -5)->orderByRaw("RAND()")->first();
-			$video = Video::where('user_id', $user->id)->where('active', 1)->where('order', '>', -5)->orderBy('order','desc')->orderBy('updated_at','asc')->first();
+			$video = Video::where('user_id', $user->id)->where('active', 1)->orderBy('order','desc')->orderBy('updated_at','asc')->first();
 		} else{
 			$list = Video::where('group_id', $group->id)->where('active', 0)->where('order', '>', -5)->paginate(200);
 			$rand = Video::where('group_id', $group->id)->where('order', '>', -5)->orderByRaw("RAND()")->first();
