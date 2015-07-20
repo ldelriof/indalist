@@ -5,7 +5,7 @@ use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
 
-use App\Video, App\Group, Input;
+use App\Video, App\Group, Input, DB;
 
 class VideoController extends Controller {
 
@@ -32,7 +32,7 @@ class VideoController extends Controller {
 
 			if($groups[0] < 1 || isset($groups[1])) {
 				$videos = $videos->where('private',0)
-							 ->select('videos.id', 'videos.updated_at', 'videos.name', 'videos.video', 'videos.order', 'groups.private')
+							 ->select('videos.id', 'videos.updated_at', 'videos.name', 'videos.video', 'videos.order', 'videos.group_id', 'groups.private')
 							 ->leftJoin('groups', 'groups.id', '=', 'videos.group_id');
 			}
 
