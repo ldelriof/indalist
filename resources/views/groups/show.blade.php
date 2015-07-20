@@ -127,6 +127,7 @@ if(!$private || $owner || $curator) {
 <script type="text/javascript">
 
 var group_orig = '{{$group_id}}', group_list;
+var user_lib;
 <?php if($user && $user->library()): ?>
 var user_lib = '{{$user->library()->id}}';
 <?php endif ?>
