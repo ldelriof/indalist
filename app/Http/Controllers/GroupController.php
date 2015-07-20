@@ -93,7 +93,7 @@ class GroupController extends Controller {
 		$user = auth()->user();
 		$group = Group::where('slug',$id)->first();
 		$group->touch();
-		$groups = Group::where('private', 0)->orderBy('updated_at','desc')->paginate(100);
+		$groups = Group::where('private', '<', 2)->orderBy('updated_at','desc')->paginate(100);
 
 		if($group->private == 2) {
 			$list = Video::where('group_id', $group->id)->where('active', 0)->paginate(200);
