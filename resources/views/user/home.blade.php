@@ -17,7 +17,7 @@
         <div class="postfix button disabled group-create secondary">Create</div>
       </div>
       <small>
-        The main list is where all the videos you add from other lists will be dropped here, 
+        The main list is where all the videos you add from other lists will be dropped, 
         later you can drop them in other lists you have created
       </small>
     </div>
