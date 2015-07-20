@@ -84,6 +84,10 @@
         @else
         <li><a href="{{url('auth/login')}}">Login</a></li>
         @endif
+
+        <?php $title = isset($group) ? $group->name : 'inDalist'; ?>
+        <li onclick="window.open('http://www.facebook.com/sharer/sharer.php?u={{$url}}&name={{$title}}','fbWin','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=500,height=300');void(0);event.preventDefault();"><a href="#"><i class="fa fa-facebook"></i></a></li>
+        <li onclick="window.open('http://twitter.com/home?status={{$url}}','tWin','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=400,height=400');void(0);event.preventDefault();"><a href="#"><i class="fa fa-twitter"></i></a></li>
       </ul>
     </section></nav>
   </div>

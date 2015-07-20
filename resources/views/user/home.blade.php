@@ -7,7 +7,7 @@
 	@if(!$library)
     <div class="group row collapse">
         <div>
-        	Choose a library name
+        	Choose a main list name
         </div>
       <div class="columns medium-12 large-8">
         <input type="text" id="group-create" class="error">
@@ -16,14 +16,21 @@
       <div class="columns medium-12 large-4">
         <div class="postfix button disabled group-create secondary">Create</div>
       </div>
+      <small>
+        The main list is where all the videos you add from other lists will be dropped here, 
+        later you can drop them in other lists you have created
+      </small>
     </div>
     @else 
     @foreach($lists as $list)
     <?php $ids .= '#'.$list->slug.', ' ?>
     <div class="columns list-title">
         <a href="{{url($list->slug)}}">{{$list->name}}</a>
-        @if($list->private > 0)
+        @if($list->private == 1)
             <small>(non-collaborative list)</small>
+        @endif
+        @if($list->private == 2)
+            <small>(main list, not public)</small>
         @endif
     </div>
     <div id="{{$list->slug}}" class="row list-sortable collapse" data-id="{{$list->id}}">

@@ -22,6 +22,7 @@ body {
 h1, li>a {
 	font-weight: 200;
 	color: #333;
+	outline: none;
 }
 h2 {
 	font-weight: bold;
@@ -209,4 +210,8 @@ a:hover {
 }
 .delete {
 	cursor: pointer;
+}
+small {
+	font-size: 0.8em;
+	font-weight: normal;
 }
