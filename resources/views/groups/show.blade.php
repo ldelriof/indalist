@@ -553,7 +553,7 @@ function getList() {
                 list += '<i class="fa-spin fa fa-circle-o-notch add-list-load"></i>'
             @endif
             @if($owner)
-                list += '<i class="fa fa-close delete" data-id="'+data[i].id+'"></i>'
+                // list += '<i class="fa fa-close delete" data-id="'+data[i].id+'"></i>'
             @endif
             list += '</span>'
             
