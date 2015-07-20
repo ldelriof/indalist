@@ -17,7 +17,6 @@ class AddSocialToUsers extends Migration {
 			//
 			$table->string('provider');
 			$table->string('provider_id');
-			$table->string('provider_token');
 		});
 	}
 

@@ -1,14 +1,25 @@
 <?php 
 $group_id = isset($group) ? $group->id : 0;
 $group_name = isset($group) ? $group->name.' - ' : '';
+$private = isset($group) ? $group->private : 0;
 
- ?>
+$owner = (isset($group) && $user) ? ($user->id == $group->user_id) ? true : false : false;
+
+$curator = (isset($group) && $user) ? $user->curator($group->id) : false;
+
+if(!$private || $owner || $curator) {
+    $can_access = true;
+} else {
+    $can_access = false;
+}
+?>
 
 @extends('master')
  
 @section('title') {{$group_name}}inDalist @stop
 
 @section('content')
+
 
 
 <div class="row collapse">
@@ -18,18 +29,22 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 
             <div class="header"><h1>{{$group_name}}inDalist</h1></div>
           <div class="content active" id="panel1">
+            @if($can_access)
                 <div>Search:</div>
                 <input type="text" id="search-button">
-                <div id="search-container"></div>
-                
-                <div class="response">Search a YouTube url to add it to the queue</div> 
+                <div id="search-container"></div>    
+                <div class="response">Search a YouTube url to add it to the queue</div>
+            @else
+                This list is not collaborative
+            @endif
          </div>    
           <div class="content" id="panel2">
-            <div>Paste:</div>
-            <input class="url" type="text" placeholder="youtube url">
-            <div class="button secondary add small-12">Add to queue</div>
-
+            @if($can_access)
+                <div>Paste:</div>
+                <input class="url" type="text" placeholder="youtube url">
+                <div class="button secondary add small-12">Add to queue</div>
                 <div class="response">Paste a YouTube url to add it to the queue</div> 
+            @endif
          </div>
 
           <div class="content" id="panel3">
@@ -52,18 +67,14 @@ $group_name = isset($group) ? $group->name.' - ' : '';
                 @endforeach
             </div>
           </div>
-
-        
         </div>
-
-        
         <div class="columns ">
         @if( isset($group) )
             @if(count($list) > 0)
             <h2>Play again:</h2>
             <div class="browse-list">
                 <?php foreach ($list as $l) {
-                    echo '<li data-id="'.$l->video.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
+                    echo '<li data-id="'.$l->id.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
                     # code...
                 } ?>
             </div>
@@ -75,15 +86,32 @@ $group_name = isset($group) ? $group->name.' - ' : '';
         @endif
         </div>
         <div class="columns"><br>
+
+            @if($can_access)
             <h2>Might also like:</h2>
             <div class="related"></div>
+            @endif
         </div>
 
     </div>
 <!-- </div> -->
 <div class="columns medium-8">
     <div id="player"></div>
-    <div id="curr_title"><span></span><div class="right"><i class="skip fa fa-forward"></i><i class="fa-spin fa fa-circle-o-notch skip-load"></i></div></div>
+    <div id="curr_title">
+        @if($user)
+        <div class="left"><i class="add_lib fa fa-plus"></i><i class="fa-spin fa fa-circle-o-notch add-load"></i></div>
+        &nbsp;
+        @endif
+        <span></span>
+
+        @if($can_access)
+        <div class="right"><i class="skip fa fa-forward"></i><i class="fa-spin fa fa-circle-o-notch skip-load"></i></div>
+        @endif
+    </div>
+    <div data-alert class="alert-box secondary">
+      <span>Video added to library</span>
+      <!-- <button tabindex="0" class="close" aria-label="Close Alert">&times;</button> -->
+    </div>
 
     <!-- <div class="row"> -->
         <!-- <div class="columns medium-10 small-centered"> -->
@@ -99,7 +127,9 @@ $group_name = isset($group) ? $group->name.' - ' : '';
 <script type="text/javascript">
 
 var group_orig = '{{$group_id}}', group_list;
-
+<?php if($user): ?>
+var user_lib = '{{$user->library()->id}}';
+<?php endif ?>
 var groups = window.location.hash.toString().split('/')[1];
     group_list = groups ? groups : '{{$group_id}}';
     // group_orig = groups;
@@ -216,8 +246,14 @@ $(function() {
         $(this).addClass('inactive');
         $(".response").animate({opacity : 1});
         id = $(this).attr('data-id');
-        addtoQ(id);
+        updateQ(id);
         // updateBrowse();
+    })
+    $("#curr_title, #list_tits").on('click', '.add_lib', function() {
+        id = $(this).attr('data-id');
+        $(this).hide();
+        $(this).next().show();
+        addtoLib(id);
     })
 
     $(".add").on('click',setVideo);
@@ -246,7 +282,6 @@ $(function() {
         queueVideo();
         $(".skip-load").show();
         $(this).hide();
-
     })
 })
 
@@ -260,6 +295,27 @@ function addtoQ(id) {
             });
     updateBrowse();
 }
+
+function updateQ(id) {
+    $.get('{{url("video")}}/'+id+'/update?active=1', function(data){
+                getList();
+            });
+    updateBrowse();
+}
+
+function addtoLib(id) {
+    $.get('{{url("video")}}/'+id+'?group='+user_lib, function(data){
+                console.log(data);
+                $('.add-load').hide();
+                $('.alert-box').fadeIn();
+                setTimeout(function() {
+                    $('.add_lib').show();
+                    $('.alert-box').fadeOut();
+                },3000);
+                // alert('video added to your library');
+            });
+}
+
 function setVideo() {
     $(".response").text('Reading url');
     var id = getId($('.url').val());
@@ -330,6 +386,8 @@ function play() {
                 // event.target.playVideo();  
                 player.playVideo();  
                 $("#curr_title span").text(name); 
+
+                $("#curr_title .add_lib").attr('data-id', video); 
                 $("#player").css("visibility", "visible");
                 $(".skip").show();
                 $(".skip-load").hide();
@@ -384,7 +442,6 @@ function activeGroups() {
 
             g_id = data[i].group ? data[i].group.id : 0
 
-
             if(groups) {
                 grAct = groups.split(',');
                 // console.log(grAct);
@@ -428,14 +485,16 @@ function getActGroups() {
         group_list = listen_on.substr(1)
 }
 function updateBrowse() {
-    $.get('{{url("videos?take=150")}}&inactive=1&group='+group_list, function(data) {
+    $.get('{{url("videos?take=200")}}&inactive=1&group='+group_list, function(data) {
         // console.log(data)
         for(i = 0 ;i < data.length;i++) {
-            br_list += '<li data-id="'+data[i].video+'">'
+            br_list += '<li data-id="'+data[i].id+'">'
             br_list += '<small>' +data[i].order + ' <i class="fa fa-thumbs-up"></i></small> ' + data[i].name
             br_list += '</li>'
         }
+
         $(".browse-list").html(br_list);
+        br_list = '';
     })
     br_list = '';
 
@@ -447,17 +506,30 @@ function getList() {
              $.get('{{url("video/random/".$group_id)}}');
          }
         for(i = 0 ;i < data.length;i++) {
-            list += '<div class="list row">'
-            list += '<div class="small-2 columns" id="'+data[i].id+'">'
-                list += '<div class="medium-4 columns ">'+data[i].order+'</div>'
-                list += '<div class="up medium-4 columns"><i class="fa fa-thumbs-up"></i></div>'
-                list += '<div class="down medium-4 columns"><i class="fa fa-thumbs-down"></i></div>'
+            list += '<div class="list row collapse">'
+            list += '<div class="small-2 columns icons" id="'+data[i].id+'">'
+            @if($can_access)
+                list += '<span>'+data[i].order+'</span>'
+                list += '<span><i class="fa fa-thumbs-up"></i></span>'
+                list += '<span><i class="fa fa-thumbs-down"></i></span>'
+            @endif
             list += '</div>'
             list += '<div class="columns medium-8 small-7">'+data[i].name+'</div>'
             list += '<div class="columns medium-2 small-3">'
             list += data[i].group ? '<a href="{{url()}}/'+data[i].group.slug+'">' : ''
             list += data[i].group ? data[i].group.name : '&nbsp;'
             list += data[i].group ? '</a>' : ''
+
+            list += '<span class="right icons">'
+            @if($user)
+                list += '<i class="fa fa-plus add_lib" data-id="'+data[i].video+'"></i>'
+                list += '<i class="fa-spin fa fa-circle-o-notch add-list-load"></i>'
+            @endif
+            @if($owner)
+                // list += '<i class="fa fa-close delete" data-id="'+data[i].id+'"></i>'
+            @endif
+            list += '</span>'
+            
             list += '</div>'
             list += '</div>'
         }

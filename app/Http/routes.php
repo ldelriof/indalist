@@ -16,19 +16,24 @@ Route::get('/', 'WelcomeController@index');
 Route::get('/spotify', 'SpotifyController@index');
 Route::get('/youtube', 'YoutubeController@index');
 
-Route::get('/groups', 'GroupController@index');
+Route::get('/lists', 'GroupController@index');
 Route::get('/group', 'GroupController@create');
 Route::get('/groups/active', 'GroupController@activeGs');
 
-
-Route::get('home', 'HomeController@index');
+Route::get('/change-list/{id}', 'VideoController@changeGroup');
 
 Route::get('video/{id}', 'VideoController@create');
+Route::delete('video/{id}', 'VideoController@destroy');
 Route::get('videos', 'VideoController@index');
 Route::get('video/random/{g_id}', 'VideoController@random');
 
 Route::get('video/{id}/update', 'VideoController@update');
 
+
+Route::get('auth/facebook/{id}', 'Auth\AuthController@checkFacebookUser');
+
+Route::get('home', 'HomeController@index');
+Route::get('dashboard', 'HomeController@index');
 
 Route::controllers([
 	'auth' => 'Auth\AuthController',

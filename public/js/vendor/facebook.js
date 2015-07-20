@@ -8,16 +8,16 @@
     // for FB.getLoginStatus().
     if (response.status === 'connected') {
       // Logged into your app and Facebook.
-      testAPI();
+      checkLogin();
     } else if (response.status === 'not_authorized') {
       // The person is logged into Facebook, but not your app.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into this app.';
+      // document.getElementById('fb_button').innerHTML = 'Log ' +
+      //   'with Facebook';
     } else {
       // The person is not logged into Facebook, so we're not sure if
       // they are logged into this app or not.
-      document.getElementById('status').innerHTML = 'Please log ' +
-        'into Facebook.';
+      // document.getElementById('fb_button').innerHTML = 'Log ' +
+      //   'with Facebook';
     }
   }
 
@@ -52,7 +52,7 @@
   // These three cases are handled in the callback function.
 
   FB.getLoginStatus(function(response) {
-    statusChangeCallback(response);
+    // statusChangeCallback(response);
   });
 
   };
@@ -68,21 +68,24 @@
 
   // Here we run a very simple test of the Graph API after login is
   // successful.  See statusChangeCallback() for when this call is made.
-  function testAPI() {
+  function checkLogin() {
     console.log('Welcome!  Fetching your information.... ');
     FB.api('/me', function(response) {
-      console.log(response);
+      // console.log(response);
       // document.getElementById('status').innerHTML =
       //   'Thanks for logging in, ' + response.name + '!';
-      $.get('facebook/'+response.id, function(){
-
+      $.get('facebook/'+response.id+'?name='+response.name+'&email='+response.email, function(res){
+        if(res.status == 'connected') {
+          window.location = res.location
+        }
       })
     });
     FB.api(
     "/me/permissions",
-    function (response) {
-        console.log(response);
+    function (response) { 
+        console.log(response );
       if (response && !response.error) {
+          // window.location = response.location
         /* handle the result */
       }
     }

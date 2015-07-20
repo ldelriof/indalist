@@ -1,21 +1,21 @@
-@extends('master')
+@extends('user.master')
  
 @section('title') Groups - indalist @stop
 
 @section('content')
 
 <div class="row main">
-  <div class="columns medium-10 small-centered">
+  <div class="columns medium-10 small-centered panel">
     <div class="group row collapse">
     	<div>
-	      Create a group
+	      Create new list
 	    </div>
       <div class="columns medium-10">
         <input type="text" id="group-create" class="error">
         <span class="group-status"></span>
       </div>
       <div class="columns medium-2">
-      	<div class="postfix button disabled group-create">Create</div>
+      	<div class="postfix button disabled group-create secondary">Create</div>
       </div>
 
     </div>

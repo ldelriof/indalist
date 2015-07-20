@@ -1,30 +1,6 @@
-<!doctype html>
-<html class="no-js" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="csrf-token" content="{{ csrf_token() }}" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@yield('title')</title>
-    <link rel="stylesheet" href="{{ url('css/foundation.min.css') }}" />
-    <link rel="stylesheet" href="{{ url('css/font-awesome.min.css') }}" />
-    <link rel="stylesheet" href="{{ url('css/style.css') }}" />
-    @yield('css')
-    <script src="{{ url('js/vendor/modernizr.js') }}"></script>
-    <script src="{{ url('js/vendor/facebook.js') }}"></script>
-  </head>
-  <body>
-
-    <nav class="top-bar" data-topbar role="navigation">
-      <ul class="title-area">
-        <li class="name">
-          <h1><a href="{{ url('/') }}">inDalist</a></h1>
-        </li>
-
-         <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-        <li class="toggle-topbar menu-icon"><a href="#"><span></span></a></li>
-      </ul>
-
-    </nav>
+@extends('user.master')
+ 
+@section('content')
     <br>
     <div class="panel  columns small-9 medium-6 small-centered">
     <form class="form-horizontal" role="form" method="POST" action="{{ url('/auth/login') }}">
@@ -66,27 +42,29 @@
 					<div id="status">
 					</div>
 
-								<a id="fb_button" class="button columns " onclick="checkLoginState()" style="background-color: rgb(58, 87, 149);" href="#">Sign in with Facebook <i class="fa fa-facebook-official "></i></a>
+								<a id="fb_button" class="button columns " style="background-color: rgb(58, 87, 149);" href="#">Sign in with Facebook</a>
 						
 								<a class="button secondary columns " href="{{ url('/auth/register') }}">Register</a>
 								<div class="clearfix"></div>
 				</div>
+@stop
 
-
-
-    <script src="{{ url('js/vendor/jquery.js') }}"></script>
-    <script src="{{ url('js/foundation.min.js') }}"></script>
+@section('scripts')
     <script type="text/javascript">
     	$(function () {
-    		$("#fb_button").on(function() {
-    			console.log(checkLoginState().status);
+    		$("#fb_button").on('click',function() {
+    			FB.login(function(res) {
+    				console.log(res);
+    				if(res.status === "connected") {
+    					checkLogin();
+    				}
+    			});
     		})
     		// body...
     	})
     </script>
-      @yield('scripts')
-  </body>
-</html>
+@stop
+@stop
 
 
 

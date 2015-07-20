@@ -16,13 +16,26 @@ class VideoController extends Controller {
 	 */
 	public function index()
 	{
+		$user = auth()->user();
 		$take = Input::get('take') ? Input::get('take') : 1;
 		$active = Input::get('inactive') ? 0 : 1;
 		$videos = Video::where('active', $active)->where('order', '>', -5);
 
 		if(Input::get('group') > -1) {
 			$groups = explode(',', Input::get('group'));
-			$videos = $videos->whereIn('group_id',$groups);
+			$group = Group::find($groups[0]);
+			if($group->private == 2 && $user) {
+				$videos = $videos->where('user_id',$user->id)->groupBy('video');
+			} else {
+				$videos = $videos->whereIn('group_id',$groups);
+			}
+
+			if($groups[0] < 1 || isset($groups[1])) {
+				$videos = $videos->where('private',0)
+							 ->select('videos.id', 'videos.updated_at', 'videos.name', 'videos.video', 'videos.order', 'groups.private')
+							 ->leftJoin('groups', 'groups.id', '=', 'videos.group_id');
+			}
+
 		}
 		
 		if($take < 100) {
@@ -60,6 +73,7 @@ class VideoController extends Controller {
 	public function create($id)
 	{
 		//
+		$user = auth()->user();
 		$group = Input::get('group') ? Input::get('group') : 0;
 		if(Video::where(['video' => $id, 'group_id' => $group])->first()) {
 			$video =  Video::where(['video' => $id, 'group_id' => $group])->first();
@@ -79,6 +93,7 @@ class VideoController extends Controller {
 		$video->group_id = $group;
 		$video->video = $id;
 		$video->active = 1;
+		if($user) $video->user_id = $user->id;
 
 		if($video->save()) {
 			return 'Video added to queue';
@@ -147,6 +162,20 @@ class VideoController extends Controller {
 		}
 	}
 
+	public function changeGroup($id)
+	{
+		$video = Video::find($id);
+
+		$video->group_id = Input::get('group');
+
+		if($video->save()) {
+			return 'ok';
+		} else {
+			return 'error';
+		}
+	}
+
+
 	/**
 	 * Remove the specified resource from storage.
 	 *
@@ -156,6 +185,15 @@ class VideoController extends Controller {
 	public function destroy($id)
 	{
 		//
+		$video = Video::find($id);
+		// $video->delete();
+
+		if($video->delete()) {
+			return 'ok';
+		} else {
+			return 'error';
+		}
+
 	}
 
 }

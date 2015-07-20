@@ -1,5 +1,7 @@
 <?php namespace App\Http\Controllers;
 
+use App\Group;
+
 class HomeController extends Controller {
 
 	/*
@@ -30,7 +32,11 @@ class HomeController extends Controller {
 	 */
 	public function index()
 	{
-		// return view('home');
+		$user = auth()->user();
+		// $library = Group::where(['user_id' => $user->id, 'private' => 2])->first();
+		$library = $user->library();
+		$lists = $user->lists();
+		return view('user.home')->with(['user' => $user, 'library' => $library, 'lists' => $lists]);
 	}
 
 }

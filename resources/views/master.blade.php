@@ -10,7 +10,7 @@
 
   <meta property="og:url" content="<?php echo $url ?>" />
   <meta property="og:title" content="@yield('title')">
-    @if($video)
+    @if(isset($video) && $video)
 
     <meta property="og:description" content="<?php echo $video->name ?> | Search - Add to queue - Listen - Share" />
 
@@ -70,15 +70,21 @@
         <!-- <li class="divider"></li> -->
         <li class=""><a href="#panel3">Lists</a></li>
         <!-- <li class=""><a href="{{ url('groups') }}">Groups</a></li> -->
-        <li class=""><a href="#panel1">Search</a></li>
-        <li class=""><a href="#panel2">Paste</a></li>
+
+        @if(!$private || $owner)
+          <li class=""><a href="#panel1">Search</a></li>
+          <li class=""><a href="#panel2">Paste</a></li>
+        @endif
 
       </ul>
       <!-- Right Nav Section -->
-      <!-- <ul class="right">
-        <li class="divider"></li>
-        <li><a href="#">Item 2</a></li>
-      </ul> -->
+      <ul class="right">
+        @if($user)
+        <li><a href="{{url('home')}}">{{$user->name}}</a></li>
+        @else
+        <li><a href="{{url('auth/login')}}">Login</a></li>
+        @endif
+      </ul>
     </section></nav>
   </div>
 

@@ -5,6 +5,8 @@ use Illuminate\Contracts\Auth\Guard;
 use Illuminate\Contracts\Auth\Registrar;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 
+use App\User, Auth, Input;
+
 class AuthController extends Controller {
 
 	/*
@@ -36,8 +38,24 @@ class AuthController extends Controller {
 	}
 
 	public function checkFacebookUser($id) {
-		$user = User::where(['provider' => 'facebook', 'provider_id' => $id]);
-		
+		$user = User::where(['provider' => 'facebook', 'provider_id' => $id])->first();
+		if($user) {
+			Auth::loginUsingId($user->id, true);
+			$response = ['status' => 'connected', 'location' => url('home')];
+			return $response;
+		} else {
+			$name = Input::get('name');
+			$email = Input::get('email');
+			$this->createFbUser($id, $name, $email);
+			$response = ['status' => 'connected', 'location' => url('home')];
+			return $response;
+		}
+	}
+
+	public function createFbUser($id, $name, $email)
+	{
+		$user = User::create(['provider' => 'facebook', 'provider_id' => $id, 'name' => $name, 'email' => $email]);
+		Auth::loginUsingId($user->id, true);
 	}
 
 }
