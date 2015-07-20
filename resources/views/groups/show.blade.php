@@ -328,7 +328,7 @@ function updateQ(id) {
 
 function addtoLib(id) {
     if(!user_lib) {
-        alert('please create your library list first, there you\'ll can directly add the songs you like');
+        alert('To add songs you must create your library list first');
         window.location = '{{url('home')}}'
     }
     $.get('{{url("video")}}/'+id+'?group='+user_lib, function(data){
