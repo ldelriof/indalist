@@ -32,6 +32,11 @@
         <div class="list row collapse icons" data-id="{{ $video->id }}">
         <i class="fa fa-sort left"></i>
         <i class="order">{{$video->order}}</i>
+        @if($video->active)
+            <i class="listen fa-volume-on fa"></i>
+        @else
+            <i class="listen fa-volume-off fa"></i>
+        @endif
 
             {{$video->name}}
         <i class="fa fa-close right delete"></i>
