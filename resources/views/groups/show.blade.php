@@ -127,7 +127,7 @@ if(!$private || $owner || $curator) {
 <script type="text/javascript">
 
 var group_orig = '{{$group_id}}', group_list;
-<?php if($user): ?>
+<?php if($user && $user->library()): ?>
 var user_lib = '{{$user->library()->id}}';
 <?php endif ?>
 var groups = window.location.hash.toString().split('/')[1];
@@ -166,7 +166,7 @@ $(function() {
         })
 
     })
-    
+
     $("#group-create").on('keyup',function(e){
         $.get('{{url("group")}}?name='+$(this).val(), function(data){
             console.log(data);
