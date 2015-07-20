@@ -33,9 +33,9 @@
         <i class="fa fa-sort left"></i>
         <i class="order">{{$video->order}}</i>
         @if($video->active)
-            <i class="listen fa-volume-on fa"></i>
+            <!-- <i class="listen fa-volume-on fa"></i> -->
         @else
-            <i class="listen fa-volume-off fa"></i>
+            <!-- <i class="listen fa-volume-off fa"></i> -->
         @endif
 
             {{$video->name}}
