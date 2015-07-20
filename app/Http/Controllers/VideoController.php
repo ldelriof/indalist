@@ -25,7 +25,7 @@ class VideoController extends Controller {
 			$groups = explode(',', Input::get('group'));
 			$group = Group::find($groups[0]);
 			if($group->private == 2 && $user) {
-				$videos = $videos->where('user_id',$user->id)->groupBy('video');
+				$videos = $videos->whereIn('group_id',$groups);
 			} else {
 				$videos = $videos->whereIn('group_id',$groups)->where('order', '>', -5);
 			}

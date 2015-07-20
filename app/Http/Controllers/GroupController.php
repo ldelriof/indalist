@@ -113,7 +113,6 @@ class GroupController extends Controller {
 		$act_groups = Video::select('videos.group_id')
 							 ->leftJoin('groups', 'groups.id', '=', 'videos.group_id')
 							 ->where(['active' => 1, 'private' => 0])->where('order', '>', -5)->groupBy('group_id')->with('Group')->get();
-
 		return $act_groups;
 	}
 	/**
