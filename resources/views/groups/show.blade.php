@@ -74,7 +74,7 @@ if(!$private || $owner || $curator) {
             <h2>Play again:</h2>
             <div class="browse-list">
                 <?php foreach ($list as $l) {
-                    echo '<li data-id="'.$l->id.'"><small>'.$l->order.' <i class="fa fa-thumbs-up"></i></small> '.$l->name.'</li>';
+                    echo '<li data-id="'.$l->id.'"><small>'.$l->order.' <i class="fa fa-thumbs-up up"></i></small> '.$l->name.'</li>';
                     # code...
                 } ?>
             </div>
@@ -489,7 +489,7 @@ function updateBrowse() {
         // console.log(data)
         for(i = 0 ;i < data.length;i++) {
             br_list += '<li data-id="'+data[i].id+'">'
-            br_list += '<small>' +data[i].order + ' <i class="fa fa-thumbs-up"></i></small> ' + data[i].name
+            br_list += '<small>' +data[i].order + ' <i class="fa fa-thumbs-up up"></i></small> ' + data[i].name
             br_list += '</li>'
         }
 
@@ -510,8 +510,8 @@ function getList() {
             list += '<div class="small-2 columns icons" id="'+data[i].id+'">'
             @if($can_access)
                 list += '<span>'+data[i].order+'</span>'
-                list += '<span><i class="fa fa-thumbs-up"></i></span>'
-                list += '<span><i class="fa fa-thumbs-down"></i></span>'
+                list += '<span><i class="fa fa-thumbs-up up"></i></span>'
+                list += '<span><i class="fa fa-thumbs-down down"></i></span>'
             @endif
             list += '</div>'
             list += '<div class="columns medium-8 small-7">'+data[i].name+'</div>'
