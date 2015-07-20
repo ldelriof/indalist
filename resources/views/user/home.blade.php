@@ -30,7 +30,8 @@
         <!-- <div class="columns"> -->
         @foreach($list->videos() as $video)
         <div class="list row collapse icons" data-id="{{ $video->id }}">
-        <i class="fa fa-sort left"> {{$video->order}}</i>
+        <i class="fa fa-sort left"></i>
+        <i class="order">{{$video->order}}</i>
 
             {{$video->name}}
         <i class="fa fa-close right delete"></i>

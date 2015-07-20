@@ -99,7 +99,7 @@ if(!$private || $owner || $curator) {
     <div id="player"></div>
     <div id="curr_title">
         @if($user)
-        <div class="left"><i class="add_lib fa fa-plus"></i><i class="fa-spin fa fa-circle-o-notch add-load"></i></div>
+        <div class="left"><i class="add_lib fa fa-plus" title="Add to your library"></i><i class="fa-spin fa fa-circle-o-notch add-load"></i></div>
         &nbsp;
         @endif
         <span></span>

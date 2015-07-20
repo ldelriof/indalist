@@ -19,7 +19,7 @@ class VideoController extends Controller {
 		$user = auth()->user();
 		$take = Input::get('take') ? Input::get('take') : 1;
 		$active = Input::get('inactive') ? 0 : 1;
-		$videos = Video::where('active', $active)->where('order', '>', -5);
+		$videos = Video::where('active', $active);
 
 		if(Input::get('group') > -1) {
 			$groups = explode(',', Input::get('group'));
@@ -27,7 +27,7 @@ class VideoController extends Controller {
 			if($group->private == 2 && $user) {
 				$videos = $videos->where('user_id',$user->id)->groupBy('video');
 			} else {
-				$videos = $videos->whereIn('group_id',$groups);
+				$videos = $videos->whereIn('group_id',$groups)->where('order', '>', -5);
 			}
 
 			if($groups[0] < 1 || isset($groups[1])) {
