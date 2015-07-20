@@ -131,11 +131,6 @@ var group_orig = '{{$group_id}}', group_list;
 var user_lib = '{{$user->library()->id}}';
 <?php endif ?>
 
-
-<?php if($user && !$user->library()): ?>
-    alert('please create your library list first, there you\'ll can directly add the songs you like');
-    window.location = '{{url('home')}}'
-<?php endif ?>
 var groups = window.location.hash.toString().split('/')[1];
     group_list = groups ? groups : '{{$group_id}}';
     // group_orig = groups;
@@ -331,6 +326,10 @@ function updateQ(id) {
 }
 
 function addtoLib(id) {
+    if(!user_lib) {
+        alert('please create your library list first, there you\'ll can directly add the songs you like');
+        window.location = '{{url('home')}}'
+    }
     $.get('{{url("video")}}/'+id+'?group='+user_lib, function(data){
                 console.log(data);
                 $('.add-load').hide();
