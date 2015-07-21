@@ -309,7 +309,7 @@ $(function() {
 })
 
 function addtoQ(id) {
-    $.get('{{url("video")}}/'+id+'?group='+group_list, function(data){
+    $.get('{{url("video")}}/'+id+'?group='+group_orig, function(data){
                 $(".response").text(data);
                 setTimeout(function(){
                     $(".response").animate({opacity : 0})
@@ -393,9 +393,9 @@ function queueVideo() {
     if(video_played) {
         $.get('{{url("video")}}/'+video_played+'/update?active=0', function(e) {
             // console.log(e);
-            if(e == 1) {
-                $.post('https://graph.facebook.com', { id: '<?php echo $url; ?>', scrape: true });
-            }
+            // if(e == 1) {
+            //     $.post('https://graph.facebook.com', { id: '<?php echo $url; ?>', scrape: true });
+            // }
             play();
         });
     } else{
@@ -509,7 +509,8 @@ function getActGroups() {
             }
         }
         listen_on = listen_on.replace(/g/g, ',')
-        group_list = listen_on.substr(1)
+        group_list = '0,'+listen_on.substr(1)
+        console.log(group_list)
 }
 function updateBrowse() {
     $.get('{{url("videos?take=200")}}&inactive=1&group='+group_list, function(data) {
@@ -529,6 +530,7 @@ function updateBrowse() {
 function getList() {
     $.get('{{url("videos?take=20")}}&group='+group_list, function(data) {
         // console.log(data);
+        console.log(group_list)
         if(data.length < 2) {
              $.get('{{url("video/random/".$group_id)}}');
          }

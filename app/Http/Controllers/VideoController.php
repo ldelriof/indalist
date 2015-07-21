@@ -24,14 +24,15 @@ class VideoController extends Controller {
 		if(Input::get('group') > -1) {
 			$groups = explode(',', Input::get('group'));
 			$group = Group::find($groups[0]);
-			if($group->private == 2 && $user) {
+			// $groups = ['0'];
+			if(isset($group) && $group->private == 2 && $user) {
 				$videos = $videos->whereIn('group_id',$groups);
 			} else {
-				$videos = $videos->whereIn('group_id',$groups)->where('order', '>', -5);
+				$videos = $videos->where('order', '>', -5);
 			}
 
 			if($groups[0] < 1 || isset($groups[1])) {
-				$videos = $videos->where('private',0)
+				$videos = $videos->where('private',0)->orWhere(['group_id' => 0, 'active' => $active, 'order' => '> -5' ])
 							 ->select('videos.id', 'videos.updated_at', 'videos.name', 'videos.video', 'videos.order', 'videos.group_id', 'groups.private')
 							 ->leftJoin('groups', 'groups.id', '=', 'videos.group_id');
 			}
