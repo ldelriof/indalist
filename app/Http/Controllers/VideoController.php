@@ -28,7 +28,7 @@ class VideoController extends Controller {
 			if(isset($group) && $group->private == 2 && $user) {
 				$videos = $videos->whereIn('group_id',$groups);
 			} else {
-				$videos = $videos->where('order', '>', -5);
+				$videos = $videos->whereIn('group_id',$groups)->where('order', '>', -5);
 			}
 
 			if($groups[0] < 1 || isset($groups[1])) {

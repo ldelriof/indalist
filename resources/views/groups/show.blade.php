@@ -510,7 +510,7 @@ function getActGroups() {
         }
         listen_on = listen_on.replace(/g/g, ',')
         group_list = '0,'+listen_on.substr(1)
-        console.log(group_list)
+        // console.log(group_list)
 }
 function updateBrowse() {
     $.get('{{url("videos?take=200")}}&inactive=1&group='+group_list, function(data) {
@@ -530,7 +530,6 @@ function updateBrowse() {
 function getList() {
     $.get('{{url("videos?take=20")}}&group='+group_list, function(data) {
         // console.log(data);
-        console.log(group_list)
         if(data.length < 2) {
              $.get('{{url("video/random/".$group_id)}}');
          }
