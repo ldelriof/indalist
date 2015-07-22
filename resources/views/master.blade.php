@@ -21,9 +21,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}" />
     <meta charset="utf-8" />
 
-    <meta name="description" content="Set collaborative playlists with Youtube videos, stream videos anywhere at the same time, add videos to the queue and vote to change the queue order">
-    <meta name="keywords" content="Groovshark, Youtube, Free, Music, Streaming, Playlist, Colaborative, Live, Spotify">
-    <meta name="author" content="Hege Refsnes">
+    <meta name="description" content="Create collaborative playlists with Youtube videos, stream videos anywhere at the same time, add videos to the queue and vote to change the queue order">
+    <meta name="keywords" content="Grooveshark, Youtube, Free, Music, Streaming, Playlist, Collaborative, Live, Spotify">
+    <meta name="author" content="IOIOIO">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
     <title>@yield('title')</title>
@@ -52,7 +52,7 @@
     <ul class="title-area">
       <li class="name"></li>
       <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
-      <li class="toggle-topbar menu-icon"><a href=""><span>Menu</span></a></li>
+      <li class="toggle-topbar menu-icon"><a href=""><span>inDalist</span></a></li>
     </ul>
 
   <section class="top-bar-section" style="left: 0%;">

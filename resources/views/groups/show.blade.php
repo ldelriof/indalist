@@ -104,7 +104,7 @@ if(!$private || $owner || $curator) {
     <div id="player"></div>
     <div id="curr_title">
         @if($user)
-        <div class="left"><i class="add_lib fa fa-plus" title="Add to your library"></i><i class="fa-spin fa fa-circle-o-notch add-load"></i></div>
+        <div class="left"><i class="add_lib fa fa-plus" title="Add to your main list"></i><i class="fa-spin fa fa-circle-o-notch add-load"></i></div>
         &nbsp;
         @endif
         <span></span>
@@ -113,8 +113,8 @@ if(!$private || $owner || $curator) {
         <div class="right"><i class="skip fa fa-forward"></i><i class="fa-spin fa fa-circle-o-notch skip-load"></i></div>
         @endif
     </div>
-    <div data-alert class="alert-box secondary">
-      <span>Video added to library</span>
+    <div data-alert class="alert-box">
+      <span>Video added to your main list</span>
       <!-- <button tabindex="0" class="close" aria-label="Close Alert">&times;</button> -->
     </div>
 

@@ -195,10 +195,15 @@ a:hover {
 .alert-box {
 	position: fixed;
 	top: 45px;
-	left: 0;
-	width: 100%;
+	left: 50%;
+	top: 50%;
+	margin-left: -125px;
+	width: 250px;
 	display: none;
+	text-align: center;
 	z-index: 100;
+	background: #E80C7A;
+	border: none;
 }
 .list-title {
 	font-weight: bold;
