@@ -22,7 +22,7 @@
     <meta charset="utf-8" />
 
     <meta name="description" content="Create collaborative playlists with Youtube videos, stream videos anywhere at the same time, add videos to the queue and vote to change the queue order">
-    <meta name="keywords" content="Grooveshark, Youtube, Free, Music, Streaming, Playlist, Collaborative, Live, Spotify">
+    <meta name="keywords" content="Grooveshark, Youtube, Free, Music, Streaming, Playlist, Collaborative, Live, Spotify, indalist">
     <meta name="author" content="IOIOIO">
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
