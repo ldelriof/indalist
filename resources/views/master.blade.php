@@ -76,6 +76,7 @@
           <li class=""><a href="#panel2">Paste</a></li>
         @endif
 
+
       </ul>
       <!-- Right Nav Section -->
       <ul class="right">
