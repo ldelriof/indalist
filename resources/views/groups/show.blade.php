@@ -27,7 +27,12 @@ if(!$private || $owner || $curator) {
         
         <div class="tabs-content panel">
 
-            <div class="header"><h1>{{$group_name}}inDalist</h1></div>
+            <div class="header">
+
+
+        <img src="{{url()}}/logo.png" class="logo">
+                <h1>{{$group_name}}inDalist</h1></div>
+
           <div class="content active" id="panel1">
             @if($can_access)
                 <div>Search:</div>

@@ -10,16 +10,11 @@
 
   <meta property="og:url" content="<?php echo $url ?>" />
   <meta property="og:title" content="@yield('title')">
+  <meta property="og:description" content="Collaborative video playlists" />
+    <meta property="og:image" content="{{url()}}/logo_black.png" />
     @if(isset($video) && $video)
-
-    <meta property="og:description" content="<?php echo $video->name ?> | Search - Add to queue - Listen - Share" />
-
-    <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />
-    <!-- <meta property="og:image" content="{{url()}}/test.jpg" /> -->
-      
+    <meta property="og:image" content="https://img.youtube.com/vi/<?php echo $video->video ?>/0.jpg" />      
     @else
-      <meta property="og:description" content="Search - Add to queue - Listen - Share" />
-      <meta property="og:image" content="{{url()}}/test.png" />
     @endif  
     <meta property="fb:app_id" content="1414002345593927" />
 
@@ -63,7 +58,7 @@
   <section class="top-bar-section" style="left: 0%;">
 
       <ul class="left">
-        <li class=""><a href="{{ url() }}">inDalist</a></li>
+        <li class=""><a href="{{ url() }}"><img src="{{url()}}/logo_white.png" class="logo_menu"> inDalist</a></li>
       </ul>
       <ul class="left tabs" data-tab>
 
@@ -75,7 +70,7 @@
           <li class=""><a href="#panel1">Search</a></li>
           <li class=""><a href="#panel2">Paste</a></li>
         @endif
-
+        <!-- TODO agregar opciones de menu Droplist - My Lists -->
 
       </ul>
       <!-- Right Nav Section -->
@@ -85,14 +80,12 @@
         @else
         <li><a href="{{url('auth/login')}}">Login</a></li>
         @endif
-
         <?php $title = isset($group) ? $group->name : 'inDalist'; ?>
         <li onclick="window.open('http://www.facebook.com/sharer/sharer.php?u={{$url}}&name={{$title}}','fbWin','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=500,height=300');void(0);event.preventDefault();"><a href="#"><i class="fa fa-facebook"></i></a></li>
         <li onclick="window.open('http://twitter.com/home?status={{$url}}','tWin','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=400,height=400');void(0);event.preventDefault();"><a href="#"><i class="fa fa-twitter"></i></a></li>
       </ul>
     </section></nav>
   </div>
-
 
 @yield('content')
 </div>
