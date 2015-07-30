@@ -193,6 +193,7 @@ a:hover {
 	cursor: pointer;
 }
 .alert-box {
+	border-radius: 2px;
 	position: fixed;
 	top: 45px;
 	left: 50%;
@@ -219,6 +220,9 @@ a:hover {
 }
 .list-sortable .row {
 	cursor: move;
+}
+.list-sortable.main-list {
+	max-height: 100%;
 }
 .delete {
 	cursor: pointer;

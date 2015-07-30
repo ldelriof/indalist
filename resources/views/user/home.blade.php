@@ -22,39 +22,83 @@
       </small>
     </div>
     @else 
-    @foreach($lists as $list)
-    <?php $ids .= '#'.$list->slug.', ' ?>
-    <div class="columns list-title">
-        <a href="{{url($list->slug)}}">{{$list->name}}</a>
-        @if($list->private == 1)
-            <small>(non-collaborative list)</small>
-        @endif
+
+
+    <div class="columns list-title medium-6">
+        @foreach($lists as $list)
+        <?php $ids .= '#'.$list->slug.', ' ?>
+
         @if($list->private == 2)
+
+        <div class="columns list-title">
+            <a href="{{url($list->slug)}}">{{$list->name}}</a>
             <small>(main list, not public)</small>
-        @endif
-    </div>
-    <div id="{{$list->slug}}" class="row list-sortable collapse" data-id="{{$list->id}}">
-        <!-- <div class="columns"> -->
-        @foreach($list->videos() as $video)
-        <div class="list row collapse icons" data-id="{{ $video->id }}">
-        <i class="fa fa-sort left"></i>
-        <i class="order">{{$video->order}}</i>
-        @if($video->active)
-            <!-- <i class="listen fa-volume-on fa"></i> -->
-        @else
-            <!-- <i class="listen fa-volume-off fa"></i> -->
-        @endif
-
-            {{$video->name}}
-        <i class="fa fa-close right delete"></i>
-        <i class="fa-spin fa fa-circle-o-notch add-load right"></i>
         </div>
+        <div id="{{$list->slug}}" class="row list-sortable collapse main-list" data-id="{{$list->id}}">
+            <!-- <div class="columns"> -->
+            @foreach($list->videos() as $video)
+            <div class="list row collapse icons" data-id="{{ $video->id }}">
+            <i class="fa fa-sort left"></i>
+            <i class="order">{{$video->order}}</i>
+            @if($video->active)
+                <!-- <i class="listen fa-volume-on fa"></i> -->
+            @else
+                <!-- <i class="listen fa-volume-off fa"></i> -->
+            @endif
+
+                {{$video->name}}
+            <i class="fa fa-close right delete"></i>
+            <i class="fa-spin fa fa-circle-o-notch add-load right"></i>
+            </div>
+            @endforeach
+            <!-- </div> -->
+        </div>
+
+
+
+        @endif
         @endforeach
-        <!-- </div> -->
     </div>
 
 
-    @endforeach
+    <div class="columns list-title medium-6">
+        @foreach($lists as $list)
+        <?php $ids .= '#'.$list->slug.', ' ?>
+
+        @if($list->private != 2)
+
+        <div class="columns list-title">
+            <a href="{{url($list->slug)}}">{{$list->name}}</a>
+            @if($list->private == 1)
+                <small>(non-collaborative list)</small>
+            @endif
+        </div>
+        <div id="{{$list->slug}}" class="row list-sortable collapse" data-id="{{$list->id}}">
+            <!-- <div class="columns"> -->
+            @foreach($list->videos() as $video)
+            <div class="list row collapse icons" data-id="{{ $video->id }}">
+            <i class="fa fa-sort left"></i>
+            <i class="order">{{$video->order}}</i>
+            @if($video->active)
+                <!-- <i class="listen fa-volume-on fa"></i> -->
+            @else
+                <!-- <i class="listen fa-volume-off fa"></i> -->
+            @endif
+
+                {{$video->name}}
+            <i class="fa fa-close right delete"></i>
+            <i class="fa-spin fa fa-circle-o-notch add-load right"></i>
+            </div>
+            @endforeach
+            <!-- </div> -->
+        </div>
+
+
+
+        @endif
+        @endforeach
+    </div>
+
     @endif
 
 	<a href="{{url('auth/logout')}}" class="button secondary right">Log out</a>
