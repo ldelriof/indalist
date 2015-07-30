@@ -2,7 +2,7 @@
 @extends('user.master')
  
 @section('content')
-<div class="panel  columns small-10 small-centered">
+<div class="panel  columns small-10 small-centered" >
 	<h2>Hi {{$user->name}}</h2>
 	@if(!$library)
     <div class="group row collapse">
@@ -23,8 +23,8 @@
     </div>
     @else 
 
-
-    <div class="columns list-title medium-6">
+<div class="row" data-equalizer>
+    <div class="columns list-title medium-6" data-equalizer-watch>
         @foreach($lists as $list)
         <?php $ids .= '#'.$list->slug.', ' ?>
 
@@ -61,7 +61,7 @@
     </div>
 
 
-    <div class="columns list-title medium-6">
+    <div class="columns list-title medium-6" data-equalizer-watch>
         @foreach($lists as $list)
         <?php $ids .= '#'.$list->slug.', ' ?>
 
@@ -99,8 +99,10 @@
         @endforeach
     </div>
 
+</div>
     @endif
 
+    <div class="clearfix"></div>
 	<a href="{{url('auth/logout')}}" class="button secondary right">Log out</a>
 	<div class="clearfix"></div>
 </div>
